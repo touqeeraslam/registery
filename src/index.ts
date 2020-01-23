@@ -1,5 +1,6 @@
 import { WORKSPACE, getConfig, ConfigSchema } from './config';
 import { IRewardCalculator, initRewardCalculator } from './util/reward';
+import { Feature } from './model/common/feature';
 
 export * from './config';
 
@@ -13,6 +14,15 @@ export class DDKRegistry {
 
     get rewardCalculator() {
         return this._rewardCalculator;
+    }
+
+    isFeatureEnabled(feature: Feature, lastBlockHeight: number): boolean {
+        switch (feature) {
+            case Feature.ARP:
+                return lastBlockHeight >= this.config.ARP.ENABLED_BLOCK_HEIGHT;
+            default:
+                return false;
+        }
     }
 
     initialize(workspace: WORKSPACE = WORKSPACE.MAINNET) {

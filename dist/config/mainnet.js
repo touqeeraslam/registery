@@ -8,6 +8,17 @@ exports.CONFIG_MAINNET = {
             0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
         ],
     },
+    ARP: {
+        ADDRESS: '17273227771820562781',
+        // TODO add befo relase
+        ENABLED_BLOCK_HEIGHT: Infinity,
+        CHAIN_REFERRAL_PERCENT_PER_LEVEL: [
+            0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
+        ],
+        DIRECT_REFERRAL_PERCENT_PER_LEVEL: [
+            0.05, 0.03, 0.02
+        ]
+    },
     STAKE: {
         VOTE_MILESTONE: 604800,
         REWARDS: {
