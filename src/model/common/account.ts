@@ -2,6 +2,7 @@ import { Address, PublicKey } from './type';
 import { Delegate } from './delegate';
 import { Stake, StakeSchema } from './transaction/stake';
 import { getAddressByPublicKey } from '../../util/account';
+import { Airdrop, AirdropSchema } from './airdrop';
 
 export type AccountSchema = {
     publicKey: PublicKey;
@@ -12,6 +13,7 @@ export type AccountSchema = {
     secondPublicKey?: PublicKey;
     delegate?: Delegate;
     address?: Address;
+    arp?: AirdropSchema;
 };
 
 export class Account implements AccountSchema {
@@ -23,6 +25,7 @@ export class Account implements AccountSchema {
     votes: Array<PublicKey>;
     referrals: Array<Account>;
     stakes: Array<Stake>;
+    arp?: Airdrop;
 
     constructor(data: AccountSchema) {
         this.publicKey = data.publicKey;
@@ -33,5 +36,6 @@ export class Account implements AccountSchema {
         this.votes = data.votes || [];
         this.referrals = data.referrals || [];
         this.stakes = (data.stakes || []).map(stake => new Stake({ ...stake }));
+        this.arp = new Airdrop(data.arp);
     }
 }

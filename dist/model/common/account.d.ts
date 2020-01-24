@@ -1,6 +1,7 @@
 import { Address, PublicKey } from './type';
 import { Delegate } from './delegate';
 import { Stake, StakeSchema } from './transaction/stake';
+import { Airdrop, AirdropSchema } from './airdrop';
 export declare type AccountSchema = {
     publicKey: PublicKey;
     actualBalance?: number;
@@ -10,6 +11,7 @@ export declare type AccountSchema = {
     secondPublicKey?: PublicKey;
     delegate?: Delegate;
     address?: Address;
+    arp?: AirdropSchema;
 };
 export declare class Account implements AccountSchema {
     address: Address;
@@ -20,5 +22,6 @@ export declare class Account implements AccountSchema {
     votes: Array<PublicKey>;
     referrals: Array<Account>;
     stakes: Array<Stake>;
+    arp?: Airdrop;
     constructor(data: AccountSchema);
 }

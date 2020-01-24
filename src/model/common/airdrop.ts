@@ -1,16 +1,21 @@
 import { Account } from './account';
-import { Stake } from './transaction/stake';
+import { Stake, StakeSchema } from './transaction/stake';
 
 export enum AirdropType {
     AIRDROP = 'airdrop',
     ARP = 'arp'
 }
 
+export type AirdropSchema = {
+    referrals?: Array<Account>;
+    stakes?: Array<StakeSchema>;
+};
+
 export class Airdrop {
     referrals?: Array<Account>;
     stakes?: Array<Stake>;
 
-    constructor(data?: Airdrop) {
+    constructor(data?: AirdropSchema) {
         this.referrals = [];
         this.stakes = [];
 

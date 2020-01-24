@@ -7,8 +7,18 @@ export declare const CONFIG_TESTNET: {
     ARP: {
         ADDRESS: string;
         ENABLED_BLOCK_HEIGHT: number;
-        CHAIN_REFERRAL_PERCENT_PER_LEVEL: number[];
-        DIRECT_REFERRAL_PERCENT_PER_LEVEL: number[];
+        DIRECT_REWARD: {
+            PERCENT_PER_LEVEL: number[];
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
+        };
+        CHAIN_REWARD: {
+            PERCENT_PER_LEVEL: number[];
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
+        };
     };
     STAKE: {
         VOTE_MILESTONE: number;
