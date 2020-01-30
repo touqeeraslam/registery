@@ -6,7 +6,7 @@ export declare type AccountSchema = {
     publicKey: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<Account>;
+    referrals?: Array<AccountSchema>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: Delegate;

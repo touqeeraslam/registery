@@ -8,7 +8,7 @@ export type AccountSchema = {
     publicKey: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<Account>;
+    referrals?: Array<AccountSchema>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: Delegate;
@@ -34,8 +34,8 @@ export class Account implements AccountSchema {
         this.secondPublicKey = data.secondPublicKey;
         this.delegate = data.delegate;
         this.votes = data.votes || [];
-        this.referrals = data.referrals || [];
-        this.stakes = (data.stakes || []).map(stake => new Stake({ ...stake }));
+        this.referrals = (data.referrals || []).map(item => new Account({ ...item }));
+        this.stakes = (data.stakes || []).map(item => new Stake({ ...item }));
         this.arp = new Airdrop(data.arp);
     }
 }

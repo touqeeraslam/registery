@@ -1,4 +1,4 @@
-import { Account } from './account';
+import { Account, AccountSchema } from './account';
 import { Stake, StakeSchema } from './transaction/stake';
 
 export enum AirdropType {
@@ -7,7 +7,7 @@ export enum AirdropType {
 }
 
 export type AirdropSchema = {
-    referrals?: Array<Account>;
+    referrals?: Array<AccountSchema>;
     stakes?: Array<StakeSchema>;
 };
 
@@ -20,11 +20,11 @@ export class Airdrop {
         this.stakes = [];
 
         if (data && Array.isArray(data.referrals)) {
-            this.referrals = [...data.referrals];
+            this.referrals = (data.referrals || []).map(item => new Account({ ...item }));
         }
 
         if (data && Array.isArray(data.stakes)) {
-            this.stakes = data.stakes.map(stake => new Stake({ ...stake }));
+            this.stakes = data.stakes.map(item => new Stake({ ...item }));
         }
     }
 }
