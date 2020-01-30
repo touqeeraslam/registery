@@ -1,6 +1,6 @@
 import { Address, PublicKey } from './type';
 import { Delegate } from './delegate';
-import { StakeSchema } from './transaction/stake';
+import { Stake, StakeSchema } from './transaction/stake';
 import { getAddressByPublicKey } from '../../util/account';
 
 export type AccountSchema = {
@@ -22,7 +22,7 @@ export class Account implements AccountSchema {
     delegate: Delegate;
     votes: Array<PublicKey>;
     referrals: Array<Account>;
-    stakes: Array<StakeSchema>;
+    stakes: Array<Stake>;
 
     constructor(data: AccountSchema) {
         this.publicKey = data.publicKey;
@@ -32,6 +32,6 @@ export class Account implements AccountSchema {
         this.delegate = data.delegate;
         this.votes = data.votes || [];
         this.referrals = data.referrals || [];
-        this.stakes = data.stakes || [];
+        this.stakes = (data.stakes || []).map(stake => new Stake({ ...stake }));
     }
 }
