@@ -1,5 +1,5 @@
 import { Address, PublicKey } from './type';
-import { Delegate } from './delegate';
+import { Delegate, DelegateSchema } from './delegate';
 import { Stake, StakeSchema } from './transaction/stake';
 import { Airdrop, AirdropSchema } from './airdrop';
 export declare type AccountSchema = {
@@ -9,7 +9,7 @@ export declare type AccountSchema = {
     referrals?: Array<AccountSchema>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
-    delegate?: Delegate;
+    delegate?: DelegateSchema;
     address?: Address;
     arp?: AirdropSchema;
 };
