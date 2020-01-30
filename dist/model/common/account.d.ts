@@ -1,6 +1,6 @@
 import { Address, PublicKey } from './type';
 import { Delegate } from './delegate';
-import { StakeSchema } from './transaction/stake';
+import { Stake, StakeSchema } from './transaction/stake';
 export declare type AccountSchema = {
     publicKey: PublicKey;
     actualBalance?: number;
@@ -19,6 +19,6 @@ export declare class Account implements AccountSchema {
     delegate: Delegate;
     votes: Array<PublicKey>;
     referrals: Array<Account>;
-    stakes: Array<StakeSchema>;
+    stakes: Array<Stake>;
     constructor(data: AccountSchema);
 }

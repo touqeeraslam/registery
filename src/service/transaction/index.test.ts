@@ -208,7 +208,8 @@ describe('Transaction creator service', () => {
                     createdAt: 111767077,
                     isActive: true,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd',
+                    sourceTransactionId: Buffer.from(
+                        '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd', 'hex'),
                     voteCount: 23,
                 },
                 {
@@ -217,7 +218,8 @@ describe('Transaction creator service', () => {
                     createdAt: 111687376,
                     isActive: true,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd',
+                    sourceTransactionId: Buffer.from(
+                        '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd', 'hex'),
                     voteCount: 3,
                 },
                 {
@@ -226,7 +228,8 @@ describe('Transaction creator service', () => {
                     createdAt: 110650921,
                     isActive: false,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: 'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51',
+                    sourceTransactionId: Buffer.from(
+                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
                     voteCount: 4,
                 },
                 {
@@ -235,7 +238,8 @@ describe('Transaction creator service', () => {
                     createdAt: 110650918,
                     isActive: false,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '80a59a608317621e98b00ebf19d65376f7ef9dd35bcee2fc448c3d230d915cd9',
+                    sourceTransactionId: Buffer.from(
+                        '80a59a608317621e98b00ebf19d65376f7ef9dd35bcee2fc448c3d230d915cd9', 'hex'),
                     voteCount: 4,
                 },
             ],
@@ -317,7 +321,8 @@ describe('Transaction creator service', () => {
                     createdAt: 111767077,
                     isActive: true,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd',
+                    sourceTransactionId: Buffer.from(
+                        '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd', 'hex'),
                     voteCount: 23,
                 },
                 {
@@ -326,7 +331,8 @@ describe('Transaction creator service', () => {
                     createdAt: 111687376,
                     isActive: true,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd',
+                    sourceTransactionId: Buffer.from(
+                        '7b1b505edec73657d5fdc187671cb212b9b699500aa54e1f81a5864374cb7fbd', 'hex'),
                     voteCount: 3,
                 },
                 {
@@ -335,7 +341,8 @@ describe('Transaction creator service', () => {
                     createdAt: 110650921,
                     isActive: false,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: 'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51',
+                    sourceTransactionId: Buffer.from(
+                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
                     voteCount: 4,
                 },
                 {
@@ -344,7 +351,8 @@ describe('Transaction creator service', () => {
                     createdAt: 110650918,
                     isActive: false,
                     nextVoteMilestone: 110585266,
-                    sourceTransactionId: '80a59a608317621e98b00ebf19d65376f7ef9dd35bcee2fc448c3d230d915cd9',
+                    sourceTransactionId: Buffer.from(
+                        '80a59a608317621e98b00ebf19d65376f7ef9dd35bcee2fc448c3d230d915cd9', 'hex'),
                     voteCount: 4,
                 },
             ],
