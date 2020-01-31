@@ -61,9 +61,9 @@ export class AssetStake extends Asset {
     }
 
     getBufferSize(): number {
-        let size = BUFFER_SIZE;
-        if (this.airdropReward && this.airdropReward.sponsors.size > 0) {
-            size += REWARD_BUFFER_SIZE;
+        let size = BUFFER_SIZE + REWARD_BUFFER_SIZE;
+        if (this.airdropReward && this.airdropReward.sponsors.size > 1) {
+            size += REWARD_BUFFER_SIZE * this.airdropReward.sponsors.size;
         }
 
         return size;
