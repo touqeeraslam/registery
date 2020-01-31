@@ -15,8 +15,6 @@ export interface IStakeARPCalculator {
 export class StakeARPCalculator implements IStakeARPCalculator {
     constructor(
         private readonly arpCalculator: IARPCalculator,
-        private readonly minAmountForDistribution: number,
-        private readonly maxAmountForDistribution: number,
     ) { }
 
     calculate(
@@ -24,13 +22,6 @@ export class StakeARPCalculator implements IStakeARPCalculator {
         stakeAmount: number,
         availableAirdropBalance: number,
     ): AirdropReward {
-        if (
-            stakeAmount < this.minAmountForDistribution ||
-            stakeAmount > this.maxAmountForDistribution
-        ) {
-            return createAirdropReward();
-        }
-
         const airdrop = this.arpCalculator.calculate(sender, stakeAmount);
         const totalAirdropReward = calculateTotalAirdropReward(airdrop);
 
@@ -47,6 +38,4 @@ export const initStakeARPCalculator = (config: ConfigSchema) => new StakeARPCalc
         config.ARP.DIRECT_REWARD.PERCENT_PER_LEVEL,
         config.ARP.DIRECT_REWARD.MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE,
     ),
-    config.ARP.DIRECT_REWARD.MIN_STAKE_AMOUNT_FOR_DISTRIBUTION,
-    config.ARP.DIRECT_REWARD.MAX_STAKE_AMOUNT_FOR_DISTRIBUTION,
 );

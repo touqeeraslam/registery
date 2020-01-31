@@ -16,8 +16,6 @@ export class VoteARPCalculator implements IVoteARPCalculator {
 
     constructor(
         private readonly arpCalculator: IARPCalculator,
-        private readonly minAmountForDistribution: number,
-        private readonly maxAmountForDistribution: number,
     ) { }
 
     calculate(
@@ -36,12 +34,7 @@ export class VoteARPCalculator implements IVoteARPCalculator {
         }
 
         const stakesForRewards = sender.arp.stakes
-            .filter(stake =>
-                stake.isActive &&
-                createdAt >= stake.nextVoteMilestone &&
-                stake.amount >= this.minAmountForDistribution &&
-                stake.amount <= this.maxAmountForDistribution
-            );
+            .filter(stake => stake.isActive && createdAt >= stake.nextVoteMilestone);
 
         if (stakesForRewards.length === 0) {
             return createAirdropReward();
@@ -81,6 +74,4 @@ export const initVoteARPCalculator = (config: ConfigSchema) => new VoteARPCalcul
         config.ARP.CHAIN_REWARD.PERCENT_PER_LEVEL,
         config.ARP.CHAIN_REWARD.MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE,
     ),
-    config.ARP.CHAIN_REWARD.MIN_STAKE_AMOUNT_FOR_DISTRIBUTION,
-    config.ARP.CHAIN_REWARD.MAX_STAKE_AMOUNT_FOR_DISTRIBUTION,
 );

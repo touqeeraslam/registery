@@ -423,6 +423,8 @@ describe('Transaction creator service', () => {
     });
 
     it('Create ARP vote transaction with active stakes from airdrop 1.0', () => {
+        const { MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE } = DDK.config.ARP.CHAIN_REWARD;
+
         const secret = 'hen worry two thank unfair salmon smile oven gospel grab latin reason';
         const sender = new Account({
             actualBalance: 4112952030480000,
@@ -516,7 +518,7 @@ describe('Transaction creator service', () => {
                             stakes: [
                                 {
                                     airdropReward: createAirdropReward(),
-                                    amount: 30000000000,
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
                                     isActive: true,
                                     nextVoteMilestone: 110585266,
@@ -533,7 +535,7 @@ describe('Transaction creator service', () => {
                             stakes: [
                                 {
                                     airdropReward: createAirdropReward(),
-                                    amount: 30000000000,
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
                                     isActive: true,
                                     nextVoteMilestone: 110585266,
@@ -550,7 +552,7 @@ describe('Transaction creator service', () => {
                             stakes: [
                                 {
                                     airdropReward: createAirdropReward(),
-                                    amount: 30000000000,
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
                                     isActive: true,
                                     nextVoteMilestone: 110585266,
@@ -567,7 +569,7 @@ describe('Transaction creator service', () => {
                             stakes: [
                                 {
                                     airdropReward: createAirdropReward(),
-                                    amount: 30000000000,
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
                                     isActive: true,
                                     nextVoteMilestone: 110585266,
@@ -584,7 +586,7 @@ describe('Transaction creator service', () => {
                             stakes: [
                                 {
                                     airdropReward: createAirdropReward(),
-                                    amount: 30000000000,
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
                                     isActive: true,
                                     nextVoteMilestone: 110585266,
@@ -662,6 +664,9 @@ describe('Transaction creator service', () => {
             senderAddress: BigInt('4995063339468361088'),
             status: TransactionStatus.CREATED,
         };
+
+        console.log(transactionResponse.data.asset.airdropReward.sponsors);
+
 
         expect(true).to.equal(transactionResponse.success);
         expect(expected).to.deep.equal(transactionResponse.data);

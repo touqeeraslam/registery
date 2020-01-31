@@ -220,7 +220,7 @@ describe('ARP Vote', () => {
                     {
                         createdAt: 0,
                         isActive: true,
-                        amount: 300 * COIN_MULTIPLIER,
+                        amount: 500 * COIN_MULTIPLIER,
                         voteCount: 0,
                         nextVoteMilestone: 0,
                         airdropReward: null,
@@ -274,7 +274,7 @@ describe('ARP Vote', () => {
                     {
                         createdAt: 0,
                         isActive: true,
-                        amount: 100 * COIN_MULTIPLIER,
+                        amount: 300 * COIN_MULTIPLIER,
                         voteCount: 0,
                         nextVoteMilestone: 0,
                         airdropReward: null,
@@ -301,7 +301,7 @@ describe('ARP Vote', () => {
                     {
                         createdAt: 0,
                         isActive: false,
-                        amount: 300 * COIN_MULTIPLIER,
+                        amount: 500 * COIN_MULTIPLIER,
                         voteCount: 0,
                         nextVoteMilestone: 0,
                         airdropReward: null,
@@ -319,7 +319,7 @@ describe('ARP Vote', () => {
                     {
                         createdAt: 0,
                         isActive: true,
-                        amount: 300 * COIN_MULTIPLIER,
+                        amount: 500 * COIN_MULTIPLIER,
                         voteCount: 0,
                         nextVoteMilestone: 0,
                         airdropReward: null,

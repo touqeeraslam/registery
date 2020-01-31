@@ -21,65 +21,7 @@ describe('ARP Stack', () => {
         expect(expectairdropReward).to.deep.equal(airdropReward);
     });
 
-    it('stakeAmount < min', () => {
-        const referrerLevel1 = new Account({
-            publicKey: '',
-            address: BigInt('0000000000000000001'),
-            arp: {
-                stakes: [
-                    {
-                        createdAt: 0,
-                        isActive: true,
-                        amount: 200 * COIN_MULTIPLIER,
-                        voteCount: 0,
-                        nextVoteMilestone: 0,
-                        airdropReward: null,
-                        sourceTransactionId: Buffer.alloc(0)
-                    }
-                ]
-            }
-        });
-
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
-        const stakeAmount: number = 10 * COIN_MULTIPLIER;
-        const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
-
-        const airdropReward = DDK.stakeARPCalculator.calculate(sender, stakeAmount, availableAirdropBalance);
-        const expectairdropReward = createAirdropReward();
-
-        expect(expectairdropReward).to.deep.equal(airdropReward);
-    });
-
-    it('stakeAmount > max', () => {
-        const referrerLevel1 = new Account({
-            publicKey: '',
-            address: BigInt('0000000000000000001'),
-            arp: {
-                stakes: [
-                    {
-                        createdAt: 0,
-                        isActive: true,
-                        amount: 200 * COIN_MULTIPLIER,
-                        voteCount: 0,
-                        nextVoteMilestone: 0,
-                        airdropReward: null,
-                        sourceTransactionId: Buffer.alloc(0)
-                    }
-                ]
-            }
-        });
-
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
-        const stakeAmount: number = 1000 * COIN_MULTIPLIER;
-        const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
-
-        const airdropReward = DDK.stakeARPCalculator.calculate(sender, stakeAmount, availableAirdropBalance);
-        const expectairdropReward = createAirdropReward();
-
-        expect(expectairdropReward).to.deep.equal(airdropReward);
-    });
-
-    it('Airdrop Reward Level 1, stack.amount < min', () => {
+    it('Airdrop Reward Level 1, referrer stack amount < min', () => {
         const referrerLevel1 = new Account({
             publicKey: '',
             address: BigInt('0000000000000000001'),
