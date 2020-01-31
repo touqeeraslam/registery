@@ -66,10 +66,7 @@ export class AssetVote extends Asset {
     }
 
     getBufferSize(): number {
-        let size = BUFFER_SIZE;
-        if (this.airdropReward && this.airdropReward.sponsors.size > 0) {
-            size += REWARD_BUFFER_SIZE * CONFIG_DEFAULT.MAX_REFERRAL_COUNT;
-        }
+        let size = BUFFER_SIZE + REWARD_BUFFER_SIZE * CONFIG_DEFAULT.MAX_REFERRAL_COUNT;
 
         size += calculateUtf8BytesLength(this.votes.join(''));
 

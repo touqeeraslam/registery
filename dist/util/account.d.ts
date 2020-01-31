@@ -1,1 +1,1 @@
-export declare const getAddressByPublicKey: (publicKey: string) => bigint;
+export declare const getAddressByPublicKey: (publicKey: string) => BigInt;
