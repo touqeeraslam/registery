@@ -665,9 +665,6 @@ describe('Transaction creator service', () => {
             status: TransactionStatus.CREATED,
         };
 
-        console.log(transactionResponse.data.asset.airdropReward.sponsors);
-
-
         expect(true).to.equal(transactionResponse.success);
         expect(expected).to.deep.equal(transactionResponse.data);
     });
