@@ -7,9 +7,7 @@ export interface IVoteARPCalculator {
 }
 export declare class VoteARPCalculator implements IVoteARPCalculator {
     private readonly arpCalculator;
-    private readonly minAmountForDistribution;
-    private readonly maxAmountForDistribution;
-    constructor(arpCalculator: IARPCalculator, minAmountForDistribution: number, maxAmountForDistribution: number);
+    constructor(arpCalculator: IARPCalculator);
     calculate(sender: Account, availableAirdropBalance: number, createdAt: Timestamp): AirdropReward;
 }
 export declare const initVoteARPCalculator: (config: ConfigSchema) => VoteARPCalculator;

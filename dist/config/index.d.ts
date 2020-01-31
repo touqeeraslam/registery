@@ -27,14 +27,10 @@ export declare type ConfigSchema = {
         ENABLED_BLOCK_HEIGHT: number;
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: Array<number>;
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
-            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
             MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
         };
         CHAIN_REWARD: {
             PERCENT_PER_LEVEL: Array<number>;
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
-            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
             MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
         };
     };
