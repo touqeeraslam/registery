@@ -39,10 +39,7 @@ class AssetVote extends _1.Asset {
         return Buffer.concat([buff, sponsorsBuffer, voteBuffer]);
     }
     getBufferSize() {
-        let size = BUFFER_SIZE;
-        if (this.airdropReward && this.airdropReward.sponsors.size > 0) {
-            size += REWARD_BUFFER_SIZE * config_1.CONFIG_DEFAULT.MAX_REFERRAL_COUNT;
-        }
+        let size = BUFFER_SIZE + REWARD_BUFFER_SIZE * config_1.CONFIG_DEFAULT.MAX_REFERRAL_COUNT;
         size += string_1.calculateUtf8BytesLength(this.votes.join(''));
         return size;
     }
