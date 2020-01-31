@@ -28,13 +28,13 @@ class RewardCalculator {
         this.stakeRewardPercent = stakeRewardPercent;
         this.referralPercentPerLevel = referralPercentPerLevel;
     }
-    calculateTotalRewardAndUnstake(createdAt, sender, voteType, lastBlockHeight) {
+    calculateTotalRewardAndUnstake(createdAt, stakes, voteType, lastBlockHeight) {
         let reward = 0;
         let unstake = 0;
         if (voteType === type_2.VoteType.DOWN_VOTE) {
             return { reward, unstake };
         }
-        sender.stakes
+        stakes
             .filter(stake => stake.isActive && createdAt >= stake.nextVoteMilestone)
             .forEach((stake) => {
             const nextVoteCount = stake.voteCount + 1;
