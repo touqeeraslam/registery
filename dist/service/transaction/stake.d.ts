@@ -6,4 +6,5 @@ export declare type StakeData = {
     amount: number;
     startVoteCount?: number;
 };
-export declare const createAssetStake: (data: StakeData, sender: Account, availableAirdropBalance: number) => AssetStake;
+export declare const createOldAssetStake: (data: StakeData, sender: Account, availableAirdropBalance: number) => AssetStake;
+export declare const createAssetStake: (data: StakeData, sender: Account, lastBlockHeight: number, availableAirdropBalance: number) => AssetStake;
