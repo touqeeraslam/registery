@@ -12,8 +12,8 @@ export type AirdropSchema = {
 };
 
 export class Airdrop {
-    referrals?: Array<Account>;
-    stakes?: Array<Stake>;
+    referrals: Array<Account>;
+    stakes: Array<Stake>;
 
     constructor(data?: AirdropSchema) {
         this.referrals = [];
