@@ -70,5 +70,3 @@ class AssetStake extends _1.Asset {
     }
 }
 exports.AssetStake = AssetStake;
-// 00 00 00 00 00 e1 f5 05 31 e0 a9 06 00 f8 1e a6 eb 6d f4 67 4e f8 1e a6 eb 6c f4 67 4e f8 1e a6 eb 6b f4 67 4e 00 00 00 00 80 96 98 00 00 00 00 00 00 ... 11 more bytes
-// 00 00 00 00 00 e1 f5 05 31 e0 a9 06 00 f8 1e a6 eb 6d f4 67 4e 00 00 00 00 80 96 98 00 f8 1e a6 eb 6c f4 67 4e 00 00 00 00 80 96 98 00 f8 1e a6 eb 6b ... 11 more bytes
