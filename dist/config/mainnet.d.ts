@@ -9,12 +9,10 @@ export declare const CONFIG_MAINNET: {
         ENABLED_BLOCK_HEIGHT: number;
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: number[];
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
             MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
         };
         CHAIN_REWARD: {
             PERCENT_PER_LEVEL: number[];
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: number;
             MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: number;
         };
     };
