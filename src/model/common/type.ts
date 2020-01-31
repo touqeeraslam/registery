@@ -7,7 +7,7 @@ export type TransactionId = string;
 export type BlockId = string;
 export type RawTransaction = { [key: string]: any };
 export type RawAsset = { [key: string]: any };
-export type Address = BigInt;
+export type Address = bigint;
 export type PublicKey = string;
 export type Timestamp = number;
 

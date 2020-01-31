@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const const_1 = require("./const");
 exports.CONFIG_DEVELOPMENT = {
     AIRDROP: {
         ADDRESS: '7897332094363171058',
@@ -11,12 +12,22 @@ exports.CONFIG_DEVELOPMENT = {
     ARP: {
         ADDRESS: '17273227771820562781',
         ENABLED_BLOCK_HEIGHT: 0,
-        CHAIN_REFERRAL_PERCENT_PER_LEVEL: [
-            0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
-        ],
-        DIRECT_REFERRAL_PERCENT_PER_LEVEL: [
-            0.05, 0.03, 0.02
-        ]
+        DIRECT_REWARD: {
+            PERCENT_PER_LEVEL: [
+                0.05, 0.03, 0.02,
+            ],
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * const_1.COIN_MULTIPLIER,
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * const_1.COIN_MULTIPLIER,
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 100 * const_1.COIN_MULTIPLIER,
+        },
+        CHAIN_REWARD: {
+            PERCENT_PER_LEVEL: [
+                0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
+            ],
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * const_1.COIN_MULTIPLIER,
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * const_1.COIN_MULTIPLIER,
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 300 * const_1.COIN_MULTIPLIER,
+        },
     },
     STAKE: {
         VOTE_MILESTONE: 10,

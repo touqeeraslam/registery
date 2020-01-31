@@ -10,7 +10,7 @@ export declare type RawTransaction = {
 export declare type RawAsset = {
     [key: string]: any;
 };
-export declare type Address = BigInt;
+export declare type Address = bigint;
 export declare type PublicKey = string;
 export declare type Timestamp = number;
 export declare type AirdropReward = {

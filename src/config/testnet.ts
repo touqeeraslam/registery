@@ -1,3 +1,5 @@
+import { COIN_MULTIPLIER } from './const';
+
 export const CONFIG_TESTNET = {
     AIRDROP: {
         ADDRESS: '7897332094363171058',
@@ -9,12 +11,22 @@ export const CONFIG_TESTNET = {
     ARP: {
         ADDRESS: '17273227771820562781',
         ENABLED_BLOCK_HEIGHT: 735023,
-        CHAIN_REFERRAL_PERCENT_PER_LEVEL: [
-            0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
-        ],
-        DIRECT_REFERRAL_PERCENT_PER_LEVEL: [
-            0.05, 0.03, 0.02
-        ]
+        DIRECT_REWARD: {
+            PERCENT_PER_LEVEL: [
+                0.05, 0.03, 0.02,
+            ],
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * COIN_MULTIPLIER,
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * COIN_MULTIPLIER,
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 100 * COIN_MULTIPLIER,
+        },
+        CHAIN_REWARD: {
+            PERCENT_PER_LEVEL: [
+                0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
+            ],
+            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * COIN_MULTIPLIER,
+            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * COIN_MULTIPLIER,
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 300 * COIN_MULTIPLIER,
+        },
     },
     STAKE: {
         VOTE_MILESTONE: 10, // in seconds
