@@ -1,13 +1,13 @@
 import { Account } from './account';
-import { TransactionType } from './transaction/type';
 import { Asset } from './transaction/asset';
 import { StakeSchema } from './transaction/stake';
+import { TransactionType } from './transaction/type';
 
 export type TransactionId = string;
 export type BlockId = string;
 export type RawTransaction = { [key: string]: any };
 export type RawAsset = { [key: string]: any };
-export type Address = bigint;
+export type Address = BigInt;
 export type PublicKey = string;
 export type Timestamp = number;
 
