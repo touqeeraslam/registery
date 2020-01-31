@@ -12,7 +12,7 @@ exports.CONFIG_MAINNET = {
     ARP: {
         ADDRESS: '17273227771820562781',
         // TODO add befo relase
-        ENABLED_BLOCK_HEIGHT: Infinity - 10,
+        ENABLED_BLOCK_HEIGHT: Infinity,
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: [
                 0.05, 0.03, 0.02,
