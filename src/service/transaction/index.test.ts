@@ -312,7 +312,7 @@ describe('Transaction creator service', () => {
                                     airdropReward: createAirdropReward(),
                                     amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
                                     createdAt: 110650921,
-                                    isActive: true,
+                                    isActive: false,
                                     nextVoteMilestone: 110585266,
                                     sourceTransactionId: Buffer.from(
                                         'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
@@ -383,7 +383,7 @@ describe('Transaction creator service', () => {
                 type: TransactionType.STAKE,
                 asset: createAssetStake({
                     createdAt: 111796273,
-                    amount: 100000000,
+                    amount: 1 * COIN_MULTIPLIER,
                 },
                     sender,
                     Infinity,
@@ -395,10 +395,10 @@ describe('Transaction creator service', () => {
         });
 
         const expected: TransactionSchema<AssetStake> = {
-            id: '3ea837ed682595c4c1681db43961fa3242443d2256f2fd06f8da3123b568ddb1',
+            id: 'e841a8e93de7cdd3e4f5f4f6d9a58ca84f75eaa3d2f9e20318cc50e57dfff3bf',
             blockId: undefined,
-            signature: 'b5c51425b46e519fd2b8a975963d9a59550e5c8a41951b4c35845449a' +
-                '69d10fd48626882ebf9f3bca8ca351a735d5c9ed7ace83619fe84c4df874aa3c3117c07',
+            signature: '8eaf5796f7196d02ba5796107493fdfc93111e49ee525054943ad1d72' +
+                '979c30e269099106443c514fe99e23cb000194509e046a01e5f1bbc69fb48b1f73a530c',
             createdAt: 111796273,
             fee: 10000,
             salt: '1fbe58f85bbb7b111855769bc48e9c49',
@@ -407,7 +407,6 @@ describe('Transaction creator service', () => {
             asset: new AssetStake({
                 airdropReward: {
                     sponsors: new Map<Address, number>()
-                        .set(BigInt('16980293496863192173'), 5000000)
                         .set(BigInt('13348365708182703460'), 2000000),
                 },
                 amount: 100000000,
