@@ -12,18 +12,18 @@ exports.createOldAssetStake = (data, sender, availableAirdropBalance) => {
     return new stake_1.AssetStake({
         airdropReward,
         amount: data.amount,
-        startTime: data.createdAt,
+        startTime: data.startTime,
         startVoteCount: data.startVoteCount || 0,
     });
 };
-exports.createAssetStake = (data, sender, lastBlockHeight, availableAirdropBalance) => {
+exports.createAssetStake = (data, sender, lastBlockHeight, availableAirdropBalance, availableARPBalance) => {
     if (!__1.default.isFeatureEnabled(feature_1.Feature.ARP, lastBlockHeight)) {
         return exports.createOldAssetStake(data, sender, availableAirdropBalance);
     }
-    const airdropReward = __1.default.stakeARPCalculator.calculate(sender, data.amount, availableAirdropBalance);
+    const airdropReward = __1.default.stakeARPCalculator.calculate(sender, data.amount, availableARPBalance);
     return new stake_1.AssetStake({
         airdropReward,
         amount: data.amount,
-        startTime: data.createdAt,
+        startTime: data.startTime,
     });
 };
