@@ -251,10 +251,10 @@ describe('ARP Vote', () => {
             }
         });
 
-        const createdAt = 0;
+        const activeStakeAmount = 300 * COIN_MULTIPLIER;
         const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
 
-        const airdropReward = DDK.voteARPCalculator.calculate(sender, availableAirdropBalance, createdAt);
+        const airdropReward = DDK.voteARPCalculator.calculate(sender, activeStakeAmount, availableAirdropBalance);
         const expectairdropReward = createAirdropReward(new Map([
             [
                 referrerLevel1.address,
@@ -352,10 +352,9 @@ describe('ARP Vote', () => {
             }
         });
 
-        const createdAt = 0;
         const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
-
-        const airdropReward = DDK.voteARPCalculator.calculate(sender, availableAirdropBalance, createdAt);
+        const activeStakeAmount = 300 * COIN_MULTIPLIER;
+        const airdropReward = DDK.voteARPCalculator.calculate(sender, activeStakeAmount, availableAirdropBalance);
         const expectairdropReward = createAirdropReward(new Map([
             [
                 referrerLevel1.address,

@@ -758,10 +758,10 @@ describe('Transaction creator service', () => {
         });
 
         const expected: TransactionSchema<AssetVote> = {
-            id: 'fa9411fb5027b566f392c87730d537298af912739e816cc2fe104bb722ded3c6',
+            id: 'b63c89baed869583e43b542624a77e371c087ed9bf6c6999103cd31cbb97da58',
             blockId: undefined,
-            signature: '9ec77ea8eb956efbcb2f86ccb37ab889c3c0d8e95e75b30a9015c959c' +
-                'cb11e6b43e933c244fe1ee671f93ce5945eede2b595173781ce8757f623a88e4a26e00a',
+            signature: 'f7ba161b084edf1f00940f0b5989498d48a83e924418cb269d859453ef' +
+                '245bbaec809bd4edcbe1c89ccb6002383b01638e570fb7943e0113ec351844a5bb0d00',
             createdAt: 111796273,
             fee: 60000,
             salt: '1fbe58f85bbb7b111855769bc48e9c49',
@@ -775,11 +775,11 @@ describe('Transaction creator service', () => {
                         .set(BigInt('13348365708182703460'), 1200000)
                         .set(BigInt('858063025382772148'), 1200000)
                         .set(BigInt('10759421590558995180'), 600000)
-                        .set(BigInt('8628161281313630310'), 1000000000)
-                        .set(BigInt('1174590855274973676'), 600000000)
-                        .set(BigInt('4695425845594122130'), 400000000)
-                        .set(BigInt('17601308981789791449'), 400000000)
-                        .set(BigInt('10953032228892871139'), 200000000),
+                        .set(BigInt('8628161281313630310'), 100000000)
+                        .set(BigInt('1174590855274973676'), 60000000)
+                        .set(BigInt('4695425845594122130'), 40000000)
+                        .set(BigInt('17601308981789791449'), 40000000)
+                        .set(BigInt('10953032228892871139'), 20000000),
                 },
                 votes: [
                     '+137b9f0f839ab3ecd2146bfecd64d31e127d79431211e352bedfeba5fd61a57a',

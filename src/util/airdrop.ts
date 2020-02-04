@@ -1,6 +1,6 @@
 import DDK from '..';
 import { createAirdropReward } from './arp/util';
-import { AirdropReward } from '../model/common/type';
+import { AirdropReward, VoteType } from '../model/common/type';
 import { TransactionType } from '../model/common/transaction/type';
 import { TransactionSchema } from '../model/common/transaction';
 import { AssetStakeSchema } from '../model/common/transaction/asset/stake';
@@ -49,18 +49,25 @@ export const calculateAirdropReward = (
                 availableAirdropBalance,
             );
         case TransactionType.VOTE:
+            const isDownVote: boolean = (trs.asset as AssetVoteSchema).votes[0][0] === '-';
+            const voteType = isDownVote ? VoteType.DOWN_VOTE : VoteType.VOTE;
+            const totalReward = DDK.rewardCalculator
+                .calculateTotalRewardAndUnstake(trs.createdAt, sender.stakes, voteType, lastBlockHeight);
+
             const airdropReward = DDK.rewardCalculator.calculateAirdropReward(
                 sender,
-                amount,
+                totalReward.reward,
                 TransactionType.VOTE,
                 availableAirdropBalance,
             );
 
             if (isARPEnabled) {
+                const arpTotalReward = DDK.rewardCalculator
+                    .calculateTotalRewardAndUnstake(trs.createdAt, sender.arp.stakes, voteType, lastBlockHeight);
                 const arpAirdropReward = DDK.voteARPCalculator.calculate(
                     sender,
+                    arpTotalReward.reward,
                     availableARPBalance,
-                    trs.createdAt,
                 );
 
                 return mergeAirdrops(airdropReward, arpAirdropReward);
