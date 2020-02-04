@@ -21,21 +21,17 @@ exports.calculateAirdropReward = (trs, amount, sender, lastBlockHeight, availabl
     const isARPEnabled = __1.default.isFeatureEnabled(feature_1.Feature.ARP, lastBlockHeight);
     switch (trs.type) {
         case type_1.TransactionType.STAKE:
-            if (!isARPEnabled) {
-                return __1.default.rewardCalculator.calculateAirdropReward(sender, amount, type_1.TransactionType.STAKE, availableAirdropBalance);
-            }
-            else {
+            if (isARPEnabled) {
                 return __1.default.stakeARPCalculator.calculate(sender, amount, availableARPBalance);
             }
+            return __1.default.rewardCalculator.calculateAirdropReward(sender, amount, type_1.TransactionType.STAKE, availableAirdropBalance);
         case type_1.TransactionType.VOTE:
             const airdropReward = __1.default.rewardCalculator.calculateAirdropReward(sender, amount, type_1.TransactionType.VOTE, availableAirdropBalance);
-            if (!isARPEnabled) {
-                return airdropReward;
-            }
-            else {
+            if (isARPEnabled) {
                 const arpAirdropReward = __1.default.voteARPCalculator.calculate(sender, availableARPBalance, trs.createdAt);
                 return exports.mergeAirdrops(airdropReward, arpAirdropReward);
             }
+            return airdropReward;
         default:
             break;
     }

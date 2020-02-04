@@ -34,20 +34,20 @@ export const calculateAirdropReward = (
 
     switch (trs.type) {
         case TransactionType.STAKE:
-            if (!isARPEnabled) {
-                return DDK.rewardCalculator.calculateAirdropReward(
-                    sender,
-                    amount,
-                    TransactionType.STAKE,
-                    availableAirdropBalance,
-                );
-            } else {
+            if (isARPEnabled) {
                 return DDK.stakeARPCalculator.calculate(
                     sender,
                     amount,
                     availableARPBalance,
                 );
             }
+
+            return DDK.rewardCalculator.calculateAirdropReward(
+                sender,
+                amount,
+                TransactionType.STAKE,
+                availableAirdropBalance,
+            );
         case TransactionType.VOTE:
             const airdropReward = DDK.rewardCalculator.calculateAirdropReward(
                 sender,
@@ -56,9 +56,7 @@ export const calculateAirdropReward = (
                 availableAirdropBalance,
             );
 
-            if (!isARPEnabled) {
-                return airdropReward;
-            } else {
+            if (isARPEnabled) {
                 const arpAirdropReward = DDK.voteARPCalculator.calculate(
                     sender,
                     availableARPBalance,
@@ -67,6 +65,8 @@ export const calculateAirdropReward = (
 
                 return mergeAirdrops(airdropReward, arpAirdropReward);
             }
+
+            return airdropReward;
         default:
             break;
     }
