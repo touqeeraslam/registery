@@ -9,7 +9,7 @@ export declare type AirdropSchema = {
     stakes?: Array<StakeSchema>;
 };
 export declare class Airdrop {
-    referrals?: Array<Account>;
-    stakes?: Array<Stake>;
+    referrals: Array<Account>;
+    stakes: Array<Stake>;
     constructor(data?: AirdropSchema);
 }

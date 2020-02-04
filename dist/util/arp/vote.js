@@ -3,10 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const calculator_1 = require("./calculator");
 const util_1 = require("./util");
 class VoteARPCalculator {
-    constructor(arpCalculator, minAmountForDistribution, maxAmountForDistribution) {
+    constructor(arpCalculator) {
         this.arpCalculator = arpCalculator;
-        this.minAmountForDistribution = minAmountForDistribution;
-        this.maxAmountForDistribution = maxAmountForDistribution;
     }
     calculate(sender, availableAirdropBalance, createdAt) {
         if (!sender ||
@@ -16,10 +14,7 @@ class VoteARPCalculator {
             return util_1.createAirdropReward();
         }
         const stakesForRewards = sender.arp.stakes
-            .filter(stake => stake.isActive &&
-            createdAt >= stake.nextVoteMilestone &&
-            stake.amount >= this.minAmountForDistribution &&
-            stake.amount <= this.maxAmountForDistribution);
+            .filter(stake => stake.isActive && createdAt >= stake.nextVoteMilestone);
         if (stakesForRewards.length === 0) {
             return util_1.createAirdropReward();
         }
@@ -43,4 +38,4 @@ class VoteARPCalculator {
     }
 }
 exports.VoteARPCalculator = VoteARPCalculator;
-exports.initVoteARPCalculator = (config) => new VoteARPCalculator(new calculator_1.ARPCalculator(config.ARP.CHAIN_REWARD.PERCENT_PER_LEVEL, config.ARP.CHAIN_REWARD.MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE), config.ARP.CHAIN_REWARD.MIN_STAKE_AMOUNT_FOR_DISTRIBUTION, config.ARP.CHAIN_REWARD.MAX_STAKE_AMOUNT_FOR_DISTRIBUTION);
+exports.initVoteARPCalculator = (config) => new VoteARPCalculator(new calculator_1.ARPCalculator(config.ARP.CHAIN_REWARD.PERCENT_PER_LEVEL, config.ARP.CHAIN_REWARD.MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE));

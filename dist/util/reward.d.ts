@@ -1,6 +1,7 @@
 import { Account } from '../model/common/account';
 import { TransactionType } from '../model/common/transaction/type';
 import { AirdropReward, Timestamp, StakeReward, VoteType } from '../model/common/type';
+import { Stake } from '../model/common/transaction/stake';
 import { ConfigSchema } from '../config';
 export interface IStakeRewardPercentCalculator {
     calculatePercent(height: number): number;
@@ -13,7 +14,7 @@ export declare class StakeRewardPercentCalculator implements IStakeRewardPercent
     calculatePercent(height: number): number;
 }
 export interface IRewardCalculator {
-    calculateTotalRewardAndUnstake(createdAt: Timestamp, sender: Account, voteType: VoteType, lastBlockHeight: number): StakeReward;
+    calculateTotalRewardAndUnstake(createdAt: Timestamp, stakes: Array<Stake>, voteType: VoteType, lastBlockHeight: number): StakeReward;
     calculateAirdropReward(sender: Account, amount: number, transactionType: TransactionType, availableAirdropBalance: number): AirdropReward;
 }
 export declare class RewardCalculator implements IRewardCalculator {
@@ -23,7 +24,7 @@ export declare class RewardCalculator implements IRewardCalculator {
     private readonly stakeRewardPercent;
     private readonly referralPercentPerLevel;
     constructor(rewardVoteCount: number, unstakeVoteCount: number, stakeRewardPercent: number, referralPercentPerLevel: Array<number>, percentCalculator: IStakeRewardPercentCalculator);
-    calculateTotalRewardAndUnstake(createdAt: Timestamp, sender: Account, voteType: VoteType, lastBlockHeight: number): StakeReward;
+    calculateTotalRewardAndUnstake(createdAt: Timestamp, stakes: Array<Stake>, voteType: VoteType, lastBlockHeight: number): StakeReward;
     calculateAirdropReward(sender: Account, amount: number, transactionType: TransactionType, availableAirdropBalance: number): AirdropReward;
 }
 export declare const initRewardCalculator: (config: ConfigSchema) => IRewardCalculator;

@@ -1,7 +1,7 @@
 import { Account } from '../model/common/account';
 import { TransactionType } from '../model/common/transaction/type';
 import { Address, AirdropReward, Timestamp, StakeReward, VoteType } from '../model/common/type';
-import { StakeSchema } from '../model/common/transaction/stake';
+import { StakeSchema, Stake } from '../model/common/transaction/stake';
 import { ConfigSchema } from '../config';
 
 export interface IStakeRewardPercentCalculator {
@@ -35,7 +35,7 @@ export class StakeRewardPercentCalculator implements IStakeRewardPercentCalculat
 export interface IRewardCalculator {
     calculateTotalRewardAndUnstake(
         createdAt: Timestamp,
-        sender: Account,
+        stakes: Array<Stake>,
         voteType: VoteType,
         lastBlockHeight: number,
     ): StakeReward;
@@ -70,7 +70,7 @@ export class RewardCalculator implements IRewardCalculator {
 
     calculateTotalRewardAndUnstake(
         createdAt: Timestamp,
-        sender: Account,
+        stakes: Array<Stake>,
         voteType: VoteType,
         lastBlockHeight: number,
     ): StakeReward {
@@ -81,7 +81,7 @@ export class RewardCalculator implements IRewardCalculator {
             return { reward, unstake };
         }
 
-        sender.stakes
+        stakes
             .filter(stake => stake.isActive && createdAt >= stake.nextVoteMilestone)
             .forEach((stake: StakeSchema) => {
                 const nextVoteCount = stake.voteCount + 1;

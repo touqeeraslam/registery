@@ -17,17 +17,13 @@ exports.CONFIG_MAINNET = {
             PERCENT_PER_LEVEL: [
                 0.05, 0.03, 0.02,
             ],
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * const_1.COIN_MULTIPLIER,
-            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * const_1.COIN_MULTIPLIER,
             MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 100 * const_1.COIN_MULTIPLIER,
         },
         CHAIN_REWARD: {
             PERCENT_PER_LEVEL: [
                 0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
             ],
-            MIN_STAKE_AMOUNT_FOR_DISTRIBUTION: 100 * const_1.COIN_MULTIPLIER,
-            MAX_STAKE_AMOUNT_FOR_DISTRIBUTION: 500 * const_1.COIN_MULTIPLIER,
-            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 300 * const_1.COIN_MULTIPLIER,
+            MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE: 500 * const_1.COIN_MULTIPLIER,
         },
     },
     STAKE: {

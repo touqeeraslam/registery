@@ -7,9 +7,7 @@ export interface IStakeARPCalculator {
 }
 export declare class StakeARPCalculator implements IStakeARPCalculator {
     private readonly arpCalculator;
-    private readonly minAmountForDistribution;
-    private readonly maxAmountForDistribution;
-    constructor(arpCalculator: IARPCalculator, minAmountForDistribution: number, maxAmountForDistribution: number);
+    constructor(arpCalculator: IARPCalculator);
     calculate(sender: Account, stakeAmount: number, availableAirdropBalance: number): AirdropReward;
 }
 export declare const initStakeARPCalculator: (config: ConfigSchema) => StakeARPCalculator;
