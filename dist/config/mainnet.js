@@ -4,6 +4,7 @@ const const_1 = require("./const");
 exports.CONFIG_MAINNET = {
     AIRDROP: {
         ADDRESS: '11696703665952770027',
+        TOTAL_AMOUNT: 900000 * const_1.COIN_MULTIPLIER,
         STAKE_REWARD_PERCENT: 0.1,
         REFERRAL_PERCENT_PER_LEVEL: [
             0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
@@ -11,6 +12,7 @@ exports.CONFIG_MAINNET = {
     },
     ARP: {
         ADDRESS: '17273227771820562781',
+        TOTAL_AMOUNT: 900000 * const_1.COIN_MULTIPLIER,
         // TODO add befo relase
         ENABLED_BLOCK_HEIGHT: Infinity,
         DIRECT_REWARD: {

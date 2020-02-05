@@ -1,11 +1,13 @@
 export declare const CONFIG_MAINNET: {
     AIRDROP: {
         ADDRESS: string;
+        TOTAL_AMOUNT: number;
         STAKE_REWARD_PERCENT: number;
         REFERRAL_PERCENT_PER_LEVEL: number[];
     };
     ARP: {
         ADDRESS: string;
+        TOTAL_AMOUNT: number;
         ENABLED_BLOCK_HEIGHT: number;
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: number[];
