@@ -3,10 +3,10 @@ import { Delegate, DelegateSchema } from './delegate';
 import { Stake, StakeSchema } from './transaction/stake';
 import { Airdrop, AirdropSchema } from './airdrop';
 export declare type AccountSchema = {
-    publicKey: PublicKey;
+    publicKey?: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<AccountSchema>;
+    referrals?: Array<Account>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: DelegateSchema;
