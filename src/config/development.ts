@@ -3,6 +3,7 @@ import { COIN_MULTIPLIER } from './const';
 export const CONFIG_DEVELOPMENT = {
     AIRDROP: {
         ADDRESS: '7897332094363171058',
+        TOTAL_AMOUNT: 90000000000000,
         STAKE_REWARD_PERCENT: 0.1,
         REFERRAL_PERCENT_PER_LEVEL: [
             0.05, 0.03, 0.02, 0.02, 0.01, 0.01, 0.01, 0.009, 0.008, 0.007, 0.006, 0.005, 0.005, 0.005, 0.005,
@@ -10,6 +11,7 @@ export const CONFIG_DEVELOPMENT = {
     },
     ARP: {
         ADDRESS: '17273227771820562781',
+        TOTAL_AMOUNT: 90000000000000,
         ENABLED_BLOCK_HEIGHT: 0,
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: [
