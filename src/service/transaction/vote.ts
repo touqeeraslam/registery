@@ -51,7 +51,7 @@ export const createAssetVote = (
     const arpTotalReward = DDK.rewardCalculator
         .calculateTotalRewardAndUnstake(data.createdAt, sender.arp.stakes, data.type, lastBlockHeight);
     const arpAirdropReward = DDK.voteARPCalculator
-        .calculate(sender, availableARPAirdropBalance, data.createdAt);
+        .calculate(sender, arpTotalReward.reward, availableARPAirdropBalance);
 
     return new AssetVote({
         airdropReward: mergeAirdrops(airdropReward, arpAirdropReward),

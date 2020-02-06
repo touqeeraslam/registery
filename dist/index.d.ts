@@ -1,8 +1,7 @@
 import { WORKSPACE, ConfigSchema } from './config';
 import { IRewardCalculator } from './util/reward';
-import { IStakeARPCalculator } from './util/arp/stake';
-import { IVoteARPCalculator } from './util/arp/vote';
 import { Feature } from './model/common/feature';
+import { IARPCalculator } from './util/arp/calculator';
 export * from './config';
 export declare class DDKRegistry {
     private _config;
@@ -11,8 +10,8 @@ export declare class DDKRegistry {
     private _voteARPCalculator;
     readonly config: ConfigSchema;
     readonly rewardCalculator: IRewardCalculator;
-    readonly stakeARPCalculator: IStakeARPCalculator;
-    readonly voteARPCalculator: IVoteARPCalculator;
+    readonly stakeARPCalculator: IARPCalculator;
+    readonly voteARPCalculator: IARPCalculator;
     isFeatureEnabled(feature: Feature, lastBlockHeight: number): boolean;
     initialize(workspace?: WORKSPACE): void;
 }

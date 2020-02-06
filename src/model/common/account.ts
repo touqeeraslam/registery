@@ -5,10 +5,10 @@ import { getAddressByPublicKey } from '../../util/account';
 import { Airdrop, AirdropSchema } from './airdrop';
 
 export type AccountSchema = {
-    publicKey: PublicKey;
+    publicKey?: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<AccountSchema>;
+    referrals?: Array<Account>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: DelegateSchema;
@@ -38,7 +38,7 @@ export class Account implements AccountSchema {
         }
 
         this.votes = data.votes || [];
-        this.referrals = (data.referrals || []).map(item => new Account({ ...item }));
+        this.referrals = data.referrals || [];
         this.stakes = (data.stakes || []).map(item => new Stake({ ...item }));
         this.arp = new Airdrop(data.arp);
     }

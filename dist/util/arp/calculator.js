@@ -6,14 +6,16 @@ class ARPCalculator {
         this.rewardPercentPerLevel = rewardPercentPerLevel;
         this.minActiveStakeAmountForReceive = minActiveStakeAmountForReceive;
     }
-    calculate(sender, amount) {
+    calculate(sender, amount, availableAirdropBalance) {
         const airdropReward = util_1.createAirdropReward();
         if (!amount ||
+            !availableAirdropBalance ||
             !sender ||
             !Array.isArray(sender.arp.referrals) ||
             sender.arp.referrals.length === 0) {
             return airdropReward;
         }
+        let totalReward = 0;
         this.rewardPercentPerLevel.forEach((rewardPercent, index) => {
             const referrer = sender.arp.referrals[index];
             if (!referrer) {
@@ -29,8 +31,12 @@ class ARPCalculator {
                 return;
             }
             const reward = Math.ceil(amount * rewardPercent);
+            totalReward += reward;
             airdropReward.sponsors.set(referrer.address, reward);
         });
+        if (availableAirdropBalance < totalReward) {
+            return util_1.createAirdropReward();
+        }
         return airdropReward;
     }
 }

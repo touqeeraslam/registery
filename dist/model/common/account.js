@@ -14,7 +14,7 @@ class Account {
             this.delegate = new delegate_1.Delegate(Object.assign({}, data.delegate, { account: this }));
         }
         this.votes = data.votes || [];
-        this.referrals = (data.referrals || []).map(item => new Account(Object.assign({}, item)));
+        this.referrals = data.referrals || [];
         this.stakes = (data.stakes || []).map(item => new stake_1.Stake(Object.assign({}, item)));
         this.arp = new airdrop_1.Airdrop(data.arp);
     }

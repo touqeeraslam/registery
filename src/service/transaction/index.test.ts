@@ -253,10 +253,12 @@ describe('Transaction creator service', () => {
                 salt: '1fbe58f85bbb7b111855769bc48e9c49',
                 type: TransactionType.STAKE,
                 asset: createAssetStake({
-                    createdAt: 111796273,
+                    startTime: 111796273,
                     amount: 100000000,
                 },
                     sender,
+                    1,
+                    Infinity,
                     Infinity,
                 ),
             },
@@ -278,6 +280,136 @@ describe('Transaction creator service', () => {
                 airdropReward: {
                     sponsors: new Map<Address, number>()
                         .set(BigInt('16980293496863192173'), 10000000),
+                },
+                amount: 100000000,
+                startTime: 111796273,
+                startVoteCount: 0,
+            }),
+            relay: 0,
+            confirmations: 0,
+            secondSignature: undefined,
+            senderAddress: BigInt('4995063339468361088'),
+            status: TransactionStatus.CREATED,
+        };
+
+        expect(true).to.equal(transactionResponse.success);
+        expect(expected).to.deep.equal(transactionResponse.data);
+    });
+
+    it('Create stake transaction after ARP launch', () => {
+        const { MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE } = DDK.config.ARP.DIRECT_REWARD;
+
+        const secret = 'hen worry two thank unfair salmon smile oven gospel grab latin reason';
+        const sender = new Account({
+            actualBalance: 4112952030480000,
+            publicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
+            arp: {
+                referrals: [
+                    new Account({
+                        publicKey: '1aa981869d400a578c11c6dd0d65fa89a21557db44e5d876dcd0cc461db1bfd2',
+                        arp: {
+                            stakes: [
+                                {
+                                    airdropReward: createAirdropReward(),
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
+                                    createdAt: 110650921,
+                                    isActive: false,
+                                    nextVoteMilestone: 110585266,
+                                    sourceTransactionId: Buffer.from(
+                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                                    voteCount: 0,
+                                },
+                            ],
+                        },
+                    }),
+                    new Account({
+                        publicKey: '0e37278dff7764749608e1ae6b186c5dae8fd388ca325ce5965f095c01e1dd0b',
+                        arp: {
+                            stakes: [
+                                {
+                                    airdropReward: createAirdropReward(),
+                                    amount: 1 * COIN_MULTIPLIER,
+                                    createdAt: 110650921,
+                                    isActive: true,
+                                    nextVoteMilestone: 110585266,
+                                    sourceTransactionId: Buffer.from(
+                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                                    voteCount: 0,
+                                },
+                            ],
+                        },
+                    }),
+                    new Account({
+                        publicKey: '702184b93831f9c749898c16853875da3684c11b75532deecce3adaffd86632d',
+                        arp: {
+                            stakes: [
+                                {
+                                    airdropReward: createAirdropReward(),
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
+                                    createdAt: 110650921,
+                                    isActive: true,
+                                    nextVoteMilestone: 110585266,
+                                    sourceTransactionId: Buffer.from(
+                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                                    voteCount: 0,
+                                },
+                            ],
+                        },
+                    }),
+                    new Account({
+                        publicKey: '3306e3072dd8ec2f5af6fb0aabf55a561a96bfdf6ce8fb0bcbd19d50a1865b38',
+                        arp: {
+                            stakes: [
+                                {
+                                    airdropReward: createAirdropReward(),
+                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE * COIN_MULTIPLIER,
+                                    createdAt: 110650921,
+                                    isActive: true,
+                                    nextVoteMilestone: 110585266,
+                                    sourceTransactionId: Buffer.from(
+                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                                    voteCount: 0,
+                                },
+                            ],
+                        },
+                    }),
+                ],
+            }
+        });
+
+        const transactionResponse = transactionCreator.create({
+            data: {
+                createdAt: 111796273,
+                salt: '1fbe58f85bbb7b111855769bc48e9c49',
+                type: TransactionType.STAKE,
+                asset: createAssetStake({
+                    startTime: 111796273,
+                    amount: 1 * COIN_MULTIPLIER,
+                },
+                    sender,
+                    Infinity,
+                    Infinity,
+                    Infinity,
+                ),
+            },
+            sender,
+            secret,
+        });
+
+        const expected: TransactionSchema<AssetStake> = {
+            id: 'e841a8e93de7cdd3e4f5f4f6d9a58ca84f75eaa3d2f9e20318cc50e57dfff3bf',
+            blockId: undefined,
+            signature: '8eaf5796f7196d02ba5796107493fdfc93111e49ee525054943ad1d72' +
+                '979c30e269099106443c514fe99e23cb000194509e046a01e5f1bbc69fb48b1f73a530c',
+            createdAt: 111796273,
+            fee: 10000,
+            salt: '1fbe58f85bbb7b111855769bc48e9c49',
+            senderPublicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
+            type: TransactionType.STAKE,
+            asset: new AssetStake({
+                airdropReward: {
+                    sponsors: new Map<Address, number>()
+                        .set(BigInt('13348365708182703460'), 2000000),
                 },
                 amount: 100000000,
                 startTime: 111796273,
@@ -626,10 +758,10 @@ describe('Transaction creator service', () => {
         });
 
         const expected: TransactionSchema<AssetVote> = {
-            id: 'fa9411fb5027b566f392c87730d537298af912739e816cc2fe104bb722ded3c6',
+            id: 'b63c89baed869583e43b542624a77e371c087ed9bf6c6999103cd31cbb97da58',
             blockId: undefined,
-            signature: '9ec77ea8eb956efbcb2f86ccb37ab889c3c0d8e95e75b30a9015c959c' +
-                'cb11e6b43e933c244fe1ee671f93ce5945eede2b595173781ce8757f623a88e4a26e00a',
+            signature: 'f7ba161b084edf1f00940f0b5989498d48a83e924418cb269d859453ef' +
+                '245bbaec809bd4edcbe1c89ccb6002383b01638e570fb7943e0113ec351844a5bb0d00',
             createdAt: 111796273,
             fee: 60000,
             salt: '1fbe58f85bbb7b111855769bc48e9c49',
@@ -643,11 +775,11 @@ describe('Transaction creator service', () => {
                         .set(BigInt('13348365708182703460'), 1200000)
                         .set(BigInt('858063025382772148'), 1200000)
                         .set(BigInt('10759421590558995180'), 600000)
-                        .set(BigInt('8628161281313630310'), 1000000000)
-                        .set(BigInt('1174590855274973676'), 600000000)
-                        .set(BigInt('4695425845594122130'), 400000000)
-                        .set(BigInt('17601308981789791449'), 400000000)
-                        .set(BigInt('10953032228892871139'), 200000000),
+                        .set(BigInt('8628161281313630310'), 100000000)
+                        .set(BigInt('1174590855274973676'), 60000000)
+                        .set(BigInt('4695425845594122130'), 40000000)
+                        .set(BigInt('17601308981789791449'), 40000000)
+                        .set(BigInt('10953032228892871139'), 20000000),
                 },
                 votes: [
                     '+137b9f0f839ab3ecd2146bfecd64d31e127d79431211e352bedfeba5fd61a57a',

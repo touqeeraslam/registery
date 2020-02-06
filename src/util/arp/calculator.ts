@@ -7,11 +7,11 @@ export interface IARPCalculator {
     calculate(
         sender: Account,
         amount: number,
+        availableAirdropBalance: number,
     ): AirdropReward;
 }
 
 export class ARPCalculator implements IARPCalculator {
-
     constructor(
         private readonly rewardPercentPerLevel: Array<number>,
         private readonly minActiveStakeAmountForReceive: number,
@@ -20,11 +20,13 @@ export class ARPCalculator implements IARPCalculator {
     calculate(
         sender: Account,
         amount: number,
+        availableAirdropBalance: number,
     ): AirdropReward {
         const airdropReward = createAirdropReward();
 
         if (
             !amount ||
+            !availableAirdropBalance ||
             !sender ||
             !Array.isArray(sender.arp.referrals) ||
             sender.arp.referrals.length === 0
@@ -32,6 +34,7 @@ export class ARPCalculator implements IARPCalculator {
             return airdropReward;
         }
 
+        let totalReward = 0;
         this.rewardPercentPerLevel.forEach((rewardPercent: number, index: number) => {
             const referrer = sender.arp.referrals[index];
             if (!referrer) {
@@ -50,8 +53,13 @@ export class ARPCalculator implements IARPCalculator {
             }
 
             const reward = Math.ceil(amount * rewardPercent);
+            totalReward += reward;
             airdropReward.sponsors.set(referrer.address, reward);
         });
+
+        if (availableAirdropBalance < totalReward) {
+            return createAirdropReward();
+        }
 
         return airdropReward;
     }

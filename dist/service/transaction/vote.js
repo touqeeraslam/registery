@@ -32,7 +32,7 @@ exports.createAssetVote = (data, sender, lastBlockHeight, availableAirdropBalanc
     const arpTotalReward = __1.default.rewardCalculator
         .calculateTotalRewardAndUnstake(data.createdAt, sender.arp.stakes, data.type, lastBlockHeight);
     const arpAirdropReward = __1.default.voteARPCalculator
-        .calculate(sender, availableARPAirdropBalance, data.createdAt);
+        .calculate(sender, arpTotalReward.reward, availableARPAirdropBalance);
     return new vote_1.AssetVote({
         airdropReward: airdrop_1.mergeAirdrops(airdropReward, arpAirdropReward),
         reward: totalReward.reward + arpTotalReward.reward,

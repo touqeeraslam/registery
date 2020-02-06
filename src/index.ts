@@ -1,16 +1,17 @@
 import { WORKSPACE, getConfig, ConfigSchema } from './config';
 import { IRewardCalculator, initRewardCalculator } from './util/reward';
-import { IStakeARPCalculator, initStakeARPCalculator } from './util/arp/stake';
-import { IVoteARPCalculator, initVoteARPCalculator } from './util/arp/vote';
+import { initStakeARPCalculator } from './util/arp/stake';
+import { initVoteARPCalculator } from './util/arp/vote';
 import { Feature } from './model/common/feature';
+import { IARPCalculator } from './util/arp/calculator';
 
 export * from './config';
 
 export class DDKRegistry {
     private _config: ConfigSchema;
     private _rewardCalculator: IRewardCalculator;
-    private _stakeARPCalculator: IStakeARPCalculator;
-    private _voteARPCalculator: IVoteARPCalculator;
+    private _stakeARPCalculator: IARPCalculator;
+    private _voteARPCalculator: IARPCalculator;
 
     get config() {
         return this._config;
