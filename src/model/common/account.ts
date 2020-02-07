@@ -42,4 +42,25 @@ export class Account implements AccountSchema {
         this.stakes = (data.stakes || []).map(item => new Stake({ ...item }));
         this.arp = new Airdrop(data.arp);
     }
+
+    getAllStakes = (): Array<Stake> => {
+        return [...this.stakes, ...this.arp.stakes];
+    }
+
+    getActiveStakes = (): Array<Stake> => {
+        return this.getAllStakes().filter(stake => stake.isActive);
+    }
+
+    getARPActiveStakes = (): Array<Stake> => {
+        return this.arp.stakes.filter(stake => stake.isActive);
+    }
+
+    getTotalStakeAmount = (): number => {
+        return this.getAllStakes().reduce((acc: number, stake: Stake) => {
+            if (stake.isActive) {
+                acc += stake.amount;
+            }
+            return acc;
+        }, 0);
+    }
 }

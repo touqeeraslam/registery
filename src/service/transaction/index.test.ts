@@ -763,7 +763,7 @@ describe('Transaction creator service', () => {
             signature: 'cf3c6447a3228c93c40f597e51ea0730507e79cd6e2d0edf57d78b1d3a' +
                 'b9f29982bba1712ab45f2d0aae7308213f75456aa528154bac4d250a38eb8b54f3cf0b',
             createdAt: 111796273,
-            fee: 60000,
+            fee: 2060000,
             salt: '1fbe58f85bbb7b111855769bc48e9c49',
             senderPublicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
             type: TransactionType.VOTE,

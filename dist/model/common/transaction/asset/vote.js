@@ -85,7 +85,7 @@ class AssetVote extends _1.Asset {
         return offset;
     }
     calculateFee(sender) {
-        return Math.ceil(sender.stakes.reduce((sum, stake) => sum += (stake.isActive ? stake.amount : 0), 0) * config_1.CONFIG_DEFAULT.FEES.VOTE);
+        return Math.ceil(sender.getTotalStakeAmount() * config_1.CONFIG_DEFAULT.FEES.VOTE);
     }
 }
 exports.AssetVote = AssetVote;

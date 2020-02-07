@@ -3,7 +3,6 @@ import { VoteType, AirdropReward } from '../../type';
 import { clone } from '../../../../util/clone';
 import BUFFER from '../../../../util/buffer';
 import { Account } from '../../account';
-import { StakeSchema } from '../stake';
 import { CONFIG_DEFAULT } from '../../../../config';
 import { calculateUtf8BytesLength } from '../../../../util/string';
 
@@ -137,9 +136,6 @@ export class AssetVote extends Asset implements AssetVoteSchema {
     }
 
     calculateFee(sender: Account): number {
-        return Math.ceil(sender.stakes.reduce(
-            (sum: number, stake: StakeSchema) => sum += (stake.isActive ? stake.amount : 0),
-            0,
-        ) * CONFIG_DEFAULT.FEES.VOTE);
+        return Math.ceil(sender.getTotalStakeAmount() * CONFIG_DEFAULT.FEES.VOTE);
     }
 }

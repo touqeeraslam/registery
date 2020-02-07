@@ -6,6 +6,23 @@ const account_1 = require("../../util/account");
 const airdrop_1 = require("./airdrop");
 class Account {
     constructor(data) {
+        this.getAllStakes = () => {
+            return [...this.stakes, ...this.arp.stakes];
+        };
+        this.getActiveStakes = () => {
+            return this.getAllStakes().filter(stake => stake.isActive);
+        };
+        this.getARPActiveStakes = () => {
+            return this.arp.stakes.filter(stake => stake.isActive);
+        };
+        this.getTotalStakeAmount = () => {
+            return this.getAllStakes().reduce((acc, stake) => {
+                if (stake.isActive) {
+                    acc += stake.amount;
+                }
+                return acc;
+            }, 0);
+        };
         this.publicKey = data.publicKey;
         this.actualBalance = data.actualBalance || 0;
         this.address = data.address || account_1.getAddressByPublicKey(data.publicKey);
