@@ -3,10 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = __importDefault(require("../.."));
 const vote_1 = require("../../model/common/transaction/asset/vote");
 const type_1 = require("../../model/common/transaction/type");
-const __1 = __importDefault(require("../.."));
-const airdrop_1 = require("../../util/airdrop");
 const feature_1 = require("../../model/common/feature");
 exports.createOldAssetVote = (data, sender, lastBlockHeight, availableAirdropBalance) => {
     const { reward, unstake } = __1.default.rewardCalculator
@@ -34,10 +33,15 @@ exports.createAssetVote = (data, sender, lastBlockHeight, availableAirdropBalanc
     const arpAirdropReward = __1.default.voteARPCalculator
         .calculate(sender, arpTotalReward.reward, availableARPAirdropBalance);
     return new vote_1.AssetVote({
-        airdropReward: airdrop_1.mergeAirdrops(airdropReward, arpAirdropReward),
-        reward: totalReward.reward + arpTotalReward.reward,
-        unstake: totalReward.unstake + arpTotalReward.unstake,
+        airdropReward,
+        reward: totalReward.reward,
+        unstake: totalReward.unstake,
         type: data.type,
         votes: data.votes,
+        arp: {
+            reward: arpTotalReward.reward,
+            unstake: arpTotalReward.unstake,
+            airdropReward: arpAirdropReward,
+        },
     });
 };
