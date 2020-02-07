@@ -1,9 +1,8 @@
+import DDK from '../..';
 import { Account } from '../../model/common/account';
 import { AssetVote } from '../../model/common/transaction/asset/vote';
 import { VoteType, Timestamp } from '../../model/common/type';
 import { TransactionType } from '../../model/common/transaction/type';
-import DDK from '../..';
-import { mergeAirdrops } from '../../util/airdrop';
 import { Feature } from '../../model/common/feature';
 
 export type VoteData = {
@@ -54,10 +53,15 @@ export const createAssetVote = (
         .calculate(sender, arpTotalReward.reward, availableARPAirdropBalance);
 
     return new AssetVote({
-        airdropReward: mergeAirdrops(airdropReward, arpAirdropReward),
-        reward: totalReward.reward + arpTotalReward.reward,
-        unstake: totalReward.unstake + arpTotalReward.unstake,
+        airdropReward,
+        reward: totalReward.reward,
+        unstake: totalReward.unstake,
         type: data.type,
         votes: data.votes,
+        arp: {
+            reward: arpTotalReward.reward,
+            unstake: arpTotalReward.unstake,
+            airdropReward: arpAirdropReward,
+        },
     });
 };

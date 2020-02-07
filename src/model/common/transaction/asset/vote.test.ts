@@ -7,6 +7,11 @@ import { createAirdropReward } from '../../../../util/arp/util';
 describe('Vote asset', () => {
     it('get buffer size with empty airdrop', () => {
         const asset = new AssetVote({
+            arp: {
+                reward: 60000000,
+                unstake: 400000000,
+                airdropReward: createAirdropReward(),
+            },
             airdropReward: createAirdropReward(),
             votes: [
                 '+137b9f0f839ab3ecd2146bfecd64d31e127d79431211e352bedfeba5fd61a57a',
@@ -23,6 +28,18 @@ describe('Vote asset', () => {
 
     it('get buffer size with airdrop', () => {
         const asset = new AssetVote({
+            arp: {
+                reward: 60000000,
+                unstake: 400000000,
+                airdropReward: {
+                    sponsors: new Map<Address, number>()
+                        .set(BigInt('16980293496863192173'), 3000000)
+                        .set(BigInt('10577313357240767744'), 1800000)
+                        .set(BigInt('13348365708182703460'), 1200000)
+                        .set(BigInt('858063025382772148'), 1200000)
+                        .set(BigInt('10759421590558995180'), 600000)
+                },
+            },
             airdropReward: {
                 sponsors: new Map<Address, number>()
                     .set(BigInt('16980293496863192173'), 3000000)
@@ -46,6 +63,11 @@ describe('Vote asset', () => {
 
     it('write bytes with empty airdrop', () => {
         const asset = new AssetVote({
+            arp: {
+                reward: 60000000,
+                unstake: 400000000,
+                airdropReward: createAirdropReward(),
+            },
             airdropReward: createAirdropReward(),
             votes: [
                 '+137b9f0f839ab3ecd2146bfecd64d31e127d79431211e352bedfeba5fd61a57a',
@@ -67,6 +89,18 @@ describe('Vote asset', () => {
 
     it('write bytes with airdrop', () => {
         const asset = new AssetVote({
+            arp: {
+                reward: 60000000,
+                unstake: 400000000,
+                airdropReward: {
+                    sponsors: new Map<Address, number>()
+                        .set(BigInt('16980293496863192173'), 3000000)
+                        .set(BigInt('10577313357240767744'), 1800000)
+                        .set(BigInt('13348365708182703460'), 1200000)
+                        .set(BigInt('858063025382772148'), 1200000)
+                        .set(BigInt('10759421590558995180'), 600000),
+                },
+            },
             airdropReward: {
                 sponsors: new Map<Address, number>()
                     .set(BigInt('16980293496863192173'), 3000000)

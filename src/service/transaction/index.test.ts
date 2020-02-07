@@ -758,36 +758,43 @@ describe('Transaction creator service', () => {
         });
 
         const expected: TransactionSchema<AssetVote> = {
-            id: 'b63c89baed869583e43b542624a77e371c087ed9bf6c6999103cd31cbb97da58',
+            id: 'dbc6823f803360853908b44897fd3139932eb8035449be57fe5fe0427c6a36e0',
             blockId: undefined,
-            signature: 'f7ba161b084edf1f00940f0b5989498d48a83e924418cb269d859453ef' +
-                '245bbaec809bd4edcbe1c89ccb6002383b01638e570fb7943e0113ec351844a5bb0d00',
+            signature: 'cf3c6447a3228c93c40f597e51ea0730507e79cd6e2d0edf57d78b1d3a' +
+                'b9f29982bba1712ab45f2d0aae7308213f75456aa528154bac4d250a38eb8b54f3cf0b',
             createdAt: 111796273,
             fee: 60000,
             salt: '1fbe58f85bbb7b111855769bc48e9c49',
             senderPublicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
             type: TransactionType.VOTE,
             asset: new AssetVote({
+                arp: {
+                    reward: 2000000000,
+                    unstake: 10000000000,
+                    airdropReward: {
+                        sponsors: new Map<Address, number>()
+                            .set(BigInt('8628161281313630310'), 100000000)
+                            .set(BigInt('1174590855274973676'), 60000000)
+                            .set(BigInt('4695425845594122130'), 40000000)
+                            .set(BigInt('17601308981789791449'), 40000000)
+                            .set(BigInt('10953032228892871139'), 20000000),
+                    },
+                },
                 airdropReward: {
                     sponsors: new Map<Address, number>()
                         .set(BigInt('16980293496863192173'), 3000000)
                         .set(BigInt('10577313357240767744'), 1800000)
                         .set(BigInt('13348365708182703460'), 1200000)
                         .set(BigInt('858063025382772148'), 1200000)
-                        .set(BigInt('10759421590558995180'), 600000)
-                        .set(BigInt('8628161281313630310'), 100000000)
-                        .set(BigInt('1174590855274973676'), 60000000)
-                        .set(BigInt('4695425845594122130'), 40000000)
-                        .set(BigInt('17601308981789791449'), 40000000)
-                        .set(BigInt('10953032228892871139'), 20000000),
+                        .set(BigInt('10759421590558995180'), 600000),
                 },
                 votes: [
                     '+137b9f0f839ab3ecd2146bfecd64d31e127d79431211e352bedfeba5fd61a57a',
                     '+83cb3d8641c8e73735cc1b70c915602ffcb6e5a68f14a71056511699050a1a05',
                     '+f959e6c8d279c97d3ec5ba993f04ab740a6e50bec4aad75a8a1e7808a6c5eec7',
                 ],
-                reward: 2060000000,
-                unstake: 10400000000,
+                reward: 60000000,
+                unstake: 400000000,
                 type: VoteType.VOTE,
             }),
             relay: 0,

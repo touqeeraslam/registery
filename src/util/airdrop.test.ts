@@ -132,7 +132,7 @@ describe('Airdrop util', () => {
             sender,
             1,
             Infinity,
-            Infinity,
+            false,
         );
 
         const expectedAirdropReward: AirdropReward = {
@@ -263,7 +263,7 @@ describe('Airdrop util', () => {
             sender,
             Infinity,
             Infinity,
-            Infinity,
+            true,
         );
 
         const expectedAirdropReward: AirdropReward = {
@@ -462,7 +462,7 @@ describe('Airdrop util', () => {
             sender,
             1,
             Infinity,
-            Infinity,
+            false,
         );
 
         const expectedAirdropReward: AirdropReward = {
@@ -663,16 +663,11 @@ describe('Airdrop util', () => {
             sender,
             Infinity,
             Infinity,
-            Infinity,
+            true,
         );
 
         const expectedAirdropReward: AirdropReward = {
             sponsors: new Map<Address, number>()
-                .set(BigInt('16980293496863192173'), 3000000)
-                .set(BigInt('10577313357240767744'), 1800000)
-                .set(BigInt('13348365708182703460'), 1200000)
-                .set(BigInt('858063025382772148'), 1200000)
-                .set(BigInt('10759421590558995180'), 600000)
                 .set(BigInt('8628161281313630310'), 100000000)
                 .set(BigInt('1174590855274973676'), 60000000)
                 .set(BigInt('4695425845594122130'), 40000000)
