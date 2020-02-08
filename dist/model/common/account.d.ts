@@ -24,4 +24,8 @@ export declare class Account implements AccountSchema {
     stakes: Array<Stake>;
     arp?: Airdrop;
     constructor(data: AccountSchema);
+    getAllStakes: () => Stake[];
+    getActiveStakes: () => Stake[];
+    getARPActiveStakes: () => Stake[];
+    getTotalStakeAmount: () => number;
 }
