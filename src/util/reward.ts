@@ -94,6 +94,8 @@ export class RewardCalculator implements IRewardCalculator {
                 }
             });
 
+        reward = Math.ceil(reward);
+
         return { reward, unstake };
     }
 
