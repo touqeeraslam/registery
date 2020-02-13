@@ -46,6 +46,7 @@ class RewardCalculator {
                 unstake += stake.amount;
             }
         });
+        reward = Math.ceil(reward);
         return { reward, unstake };
     }
     calculateAirdropReward(sender, amount, transactionType, availableAirdropBalance) {
