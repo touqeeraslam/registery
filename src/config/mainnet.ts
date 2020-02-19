@@ -10,10 +10,9 @@ export const CONFIG_MAINNET = {
         ],
     },
     ARP: {
-        ADDRESS: '17273227771820562781',
+        ADDRESS: '11283137848848308884',
         TOTAL_AMOUNT: 900_000 * COIN_MULTIPLIER,
-        // TODO add befo relase
-        ENABLED_BLOCK_HEIGHT: Infinity,
+        ENABLED_BLOCK_HEIGHT: 1782865,
         DIRECT_REWARD: {
             PERCENT_PER_LEVEL: [
                 0.05, 0.03, 0.02,
