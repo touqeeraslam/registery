@@ -8,7 +8,7 @@ export type AccountSchema = {
     publicKey?: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<Account>;
+    referrals?: Array<BigInt>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: DelegateSchema;
@@ -23,7 +23,7 @@ export class Account implements AccountSchema {
     actualBalance: number;
     delegate: Delegate;
     votes: Array<PublicKey>;
-    referrals: Array<Account>;
+    referrals: Array<BigInt>;
     stakes: Array<Stake>;
     arp?: Airdrop;
 

@@ -6,7 +6,7 @@ export declare type AccountSchema = {
     publicKey?: PublicKey;
     actualBalance?: number;
     votes?: Array<PublicKey>;
-    referrals?: Array<Account>;
+    referrals?: Array<BigInt>;
     stakes?: Array<StakeSchema>;
     secondPublicKey?: PublicKey;
     delegate?: DelegateSchema;
@@ -20,7 +20,7 @@ export declare class Account implements AccountSchema {
     actualBalance: number;
     delegate: Delegate;
     votes: Array<PublicKey>;
-    referrals: Array<Account>;
+    referrals: Array<BigInt>;
     stakes: Array<Stake>;
     arp?: Airdrop;
     constructor(data: AccountSchema);

@@ -113,7 +113,7 @@ export class RewardCalculator implements IRewardCalculator {
             return airdropReward;
         }
 
-        const referrals = [];
+        const referrals: Array<BigInt> = [];
         if (transactionType === TransactionType.STAKE) {
             referrals.push(sender.referrals[0]);
         } else {
@@ -121,11 +121,11 @@ export class RewardCalculator implements IRewardCalculator {
         }
 
         let airdropRewardAmount: number = 0;
-        referrals.forEach((referral: Account, i: number) => {
+        referrals.forEach((referral: BigInt, i: number) => {
             const reward = transactionType === TransactionType.STAKE
                 ? Math.ceil(amount * this.stakeRewardPercent)
                 : Math.ceil(this.referralPercentPerLevel[i] * amount);
-            airdropReward.sponsors.set(referral.address, reward);
+            airdropReward.sponsors.set(referral, reward);
             airdropRewardAmount += reward;
         });
 

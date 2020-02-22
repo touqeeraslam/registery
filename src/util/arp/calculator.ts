@@ -2,6 +2,7 @@ import { Account } from '../../model/common/account';
 import { AirdropReward } from '../../model/common/type';
 import { StakeSchema } from '../../model/common/transaction/stake';
 import { createAirdropReward } from './util';
+import DDK from '../../index';
 
 export interface IARPCalculator {
     calculate(
@@ -36,7 +37,7 @@ export class ARPCalculator implements IARPCalculator {
 
         let totalReward = 0;
         this.rewardPercentPerLevel.forEach((rewardPercent: number, index: number) => {
-            const referrer = sender.arp.referrals[index];
+            const referrer = DDK.accountRepository.getByAddress(sender.arp.referrals[index]);
             if (!referrer) {
                 return;
             }

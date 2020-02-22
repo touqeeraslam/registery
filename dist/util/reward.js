@@ -68,7 +68,7 @@ class RewardCalculator {
             const reward = transactionType === type_1.TransactionType.STAKE
                 ? Math.ceil(amount * this.stakeRewardPercent)
                 : Math.ceil(this.referralPercentPerLevel[i] * amount);
-            airdropReward.sponsors.set(referral.address, reward);
+            airdropReward.sponsors.set(referral, reward);
             airdropRewardAmount += reward;
         });
         if (availableAirdropBalance < airdropRewardAmount) {

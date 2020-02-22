@@ -22,6 +22,9 @@ class DDKRegistry {
     get voteARPCalculator() {
         return this._voteARPCalculator;
     }
+    get accountRepository() {
+        return this._accountRepo;
+    }
     isFeatureEnabled(feature, lastBlockHeight) {
         switch (feature) {
             case feature_1.Feature.ARP:
@@ -30,8 +33,9 @@ class DDKRegistry {
                 return false;
         }
     }
-    initialize(workspace = config_1.WORKSPACE.MAINNET) {
+    initialize(workspace = config_1.WORKSPACE.MAINNET, accountRepo) {
         this._config = config_1.getConfig(workspace);
+        this._accountRepo = accountRepo;
         this._rewardCalculator = reward_1.initRewardCalculator(this._config);
         this._stakeARPCalculator = stake_1.initStakeARPCalculator(this.config);
         this._voteARPCalculator = vote_1.initVoteARPCalculator(this.config);
