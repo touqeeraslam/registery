@@ -10,11 +10,15 @@ import { TransactionType } from '../model/common/transaction/type';
 import { TransactionSchema } from '../model/common/transaction';
 import { Address, AirdropReward } from '../model/common/type';
 import { WORKSPACE } from '../config';
+import { IAccountRepository, AccountRepository } from '../repository/account';
 
 describe('Airdrop util', () => {
-    beforeEach(() => {
-        DDK.initialize(WORKSPACE.MAINNET);
+    let accountRepository: IAccountRepository;
 
+    beforeEach(() => {
+        accountRepository = new AccountRepository();
+
+        DDK.initialize(WORKSPACE.MAINNET, accountRepository);
 
         MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD =
             DDK.config.ARP.DIRECT_REWARD.MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE;
@@ -47,82 +51,89 @@ describe('Airdrop util', () => {
     });
 
     it('Calculate airdrop reward for stake transaction before ARP', () => {
+        const referrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: 1 * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: 1 * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+
+        const arpReferrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+
+        referrals.forEach(referral => accountRepository.add(referral));
+        arpReferrals.forEach(referral => accountRepository.add(referral));
+
         const sender = new Account({
             actualBalance: 4112952030480000,
             publicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
-            referrals: [
-                new Account({
-                    publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
-                    arp: {
-                        stakes: [
-                            {
-                                airdropReward: createAirdropReward(),
-                                amount: 1 * COIN_MULTIPLIER,
-                                createdAt: 110650921,
-                                isActive: true,
-                                nextVoteMilestone: 110585266,
-                                sourceTransactionId: Buffer.from(
-                                    'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                voteCount: 0,
-                            },
-                        ],
-                    },
-                }),
-                new Account({
-                    publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
-                    arp: {
-                        stakes: [
-                            {
-                                airdropReward: createAirdropReward(),
-                                amount: 1 * COIN_MULTIPLIER,
-                                createdAt: 110650921,
-                                isActive: true,
-                                nextVoteMilestone: 110585266,
-                                sourceTransactionId: Buffer.from(
-                                    'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                voteCount: 0,
-                            },
-                        ],
-                    },
-                }),
-            ],
+            referrals: referrals.map(referral => referral.address),
             arp: {
-                referrals: [
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                ],
+                referrals: arpReferrals.map(referral => referral.address),
             }
         });
 
@@ -144,116 +155,122 @@ describe('Airdrop util', () => {
     });
 
     it('Calculate airdrop reward for stake transaction after ARP', () => {
+        const referrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: 1 * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: 1 * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+        const arpReferrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000005',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+
+        referrals.forEach(referral => accountRepository.add(referral));
+        arpReferrals.forEach(referral => accountRepository.add(referral));
+
         const sender = new Account({
             actualBalance: 4112952030480000,
             publicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
-            referrals: [
-                new Account({
-                    publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
-                    arp: {
-                        stakes: [
-                            {
-                                airdropReward: createAirdropReward(),
-                                amount: 1 * COIN_MULTIPLIER,
-                                createdAt: 110650921,
-                                isActive: true,
-                                nextVoteMilestone: 110585266,
-                                sourceTransactionId: Buffer.from(
-                                    'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                voteCount: 0,
-                            },
-                        ],
-                    },
-                }),
-                new Account({
-                    publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
-                    arp: {
-                        stakes: [
-                            {
-                                airdropReward: createAirdropReward(),
-                                amount: 1 * COIN_MULTIPLIER,
-                                createdAt: 110650921,
-                                isActive: true,
-                                nextVoteMilestone: 110585266,
-                                sourceTransactionId: Buffer.from(
-                                    'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                voteCount: 0,
-                            },
-                        ],
-                    },
-                }),
-            ],
+            referrals: referrals.map(referral => referral.address),
             arp: {
-                referrals: [
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000005',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_DIRECT_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                ],
+                referrals: arpReferrals.map(referral => referral.address),
             }
         });
 
@@ -277,26 +294,119 @@ describe('Airdrop util', () => {
     });
 
     it('Calculate airdrop reward for vote transaction before ARP', () => {
+        const referrals = [
+            new Account({
+                publicKey: '1aa981869d400a578c11c6dd0d65fa89a21557db44e5d876dcd0cc461db1bfd2',
+            }),
+            new Account({
+                publicKey: '0e37278dff7764749608e1ae6b186c5dae8fd388ca325ce5965f095c01e1dd0b',
+            }),
+            new Account({
+                publicKey: '702184b93831f9c749898c16853875da3684c11b75532deecce3adaffd86632d',
+            }),
+            new Account({
+                publicKey: '3306e3072dd8ec2f5af6fb0aabf55a561a96bfdf6ce8fb0bcbd19d50a1865b38',
+            }),
+            new Account({
+                publicKey: '648c8da6f52f8e5b5c31536e8ed61dd18d55d951a7c0382df7279439c11d5457',
+            }),
+        ];
+
+        const arpReferrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+
+        referrals.forEach(referral => accountRepository.add(referral));
+        arpReferrals.forEach(referral => accountRepository.add(referral));
+
         const sender = new Account({
             actualBalance: 4112952030480000,
             publicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
-            referrals: [
-                new Account({
-                    publicKey: '1aa981869d400a578c11c6dd0d65fa89a21557db44e5d876dcd0cc461db1bfd2',
-                }),
-                new Account({
-                    publicKey: '0e37278dff7764749608e1ae6b186c5dae8fd388ca325ce5965f095c01e1dd0b',
-                }),
-                new Account({
-                    publicKey: '702184b93831f9c749898c16853875da3684c11b75532deecce3adaffd86632d',
-                }),
-                new Account({
-                    publicKey: '3306e3072dd8ec2f5af6fb0aabf55a561a96bfdf6ce8fb0bcbd19d50a1865b38',
-                }),
-                new Account({
-                    publicKey: '648c8da6f52f8e5b5c31536e8ed61dd18d55d951a7c0382df7279439c11d5457',
-                }),
-            ],
+            referrals: referrals.map(referral => referral.address),
             stakes: [
                 {
                     airdropReward: createAirdropReward(),
@@ -362,93 +472,7 @@ describe('Airdrop util', () => {
                         voteCount: 23,
                     },
                 ],
-                referrals: [
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                ],
+                referrals: arpReferrals.map(referral => referral.address),
             },
         });
 
@@ -478,26 +502,119 @@ describe('Airdrop util', () => {
     });
 
     it('Calculate airdrop reward for vote transaction after ARP', () => {
+        const referrals = [
+            new Account({
+                publicKey: '1aa981869d400a578c11c6dd0d65fa89a21557db44e5d876dcd0cc461db1bfd2',
+            }),
+            new Account({
+                publicKey: '0e37278dff7764749608e1ae6b186c5dae8fd388ca325ce5965f095c01e1dd0b',
+            }),
+            new Account({
+                publicKey: '702184b93831f9c749898c16853875da3684c11b75532deecce3adaffd86632d',
+            }),
+            new Account({
+                publicKey: '3306e3072dd8ec2f5af6fb0aabf55a561a96bfdf6ce8fb0bcbd19d50a1865b38',
+            }),
+            new Account({
+                publicKey: '648c8da6f52f8e5b5c31536e8ed61dd18d55d951a7c0382df7279439c11d5457',
+            }),
+        ];
+
+        const arpReferrals = [
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+            new Account({
+                publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
+                arp: {
+                    stakes: [
+                        {
+                            airdropReward: createAirdropReward(),
+                            amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
+                            createdAt: 110650921,
+                            isActive: true,
+                            nextVoteMilestone: 110585266,
+                            sourceTransactionId: Buffer.from(
+                                'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
+                            voteCount: 0,
+                        },
+                    ],
+                },
+            }),
+        ];
+
+        referrals.forEach(referral => accountRepository.add(referral));
+        arpReferrals.forEach(referral => accountRepository.add(referral));
+
         const sender = new Account({
             actualBalance: 4112952030480000,
             publicKey: 'f4ae589b02f97e9ab5bce61cf187bcc96cfb3fdf9a11333703a682b7d47c8dc2',
-            referrals: [
-                new Account({
-                    publicKey: '1aa981869d400a578c11c6dd0d65fa89a21557db44e5d876dcd0cc461db1bfd2',
-                }),
-                new Account({
-                    publicKey: '0e37278dff7764749608e1ae6b186c5dae8fd388ca325ce5965f095c01e1dd0b',
-                }),
-                new Account({
-                    publicKey: '702184b93831f9c749898c16853875da3684c11b75532deecce3adaffd86632d',
-                }),
-                new Account({
-                    publicKey: '3306e3072dd8ec2f5af6fb0aabf55a561a96bfdf6ce8fb0bcbd19d50a1865b38',
-                }),
-                new Account({
-                    publicKey: '648c8da6f52f8e5b5c31536e8ed61dd18d55d951a7c0382df7279439c11d5457',
-                }),
-            ],
+            referrals: referrals.map(referral => referral.address),
             stakes: [
                 {
                     airdropReward: createAirdropReward(),
@@ -563,93 +680,7 @@ describe('Airdrop util', () => {
                         voteCount: 23,
                     },
                 ],
-                referrals: [
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000000',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000001',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000002',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000003',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                    new Account({
-                        publicKey: '0000000000000000000000000000000000000000000000000000000000000004',
-                        arp: {
-                            stakes: [
-                                {
-                                    airdropReward: createAirdropReward(),
-                                    amount: MIN_ACTIVE_STAKE_AMOUNT_FOR_RECEIVE_CHAIN_REWARD * COIN_MULTIPLIER,
-                                    createdAt: 110650921,
-                                    isActive: true,
-                                    nextVoteMilestone: 110585266,
-                                    sourceTransactionId: Buffer.from(
-                                        'd62ec106d1ee4d6c631e8d55b4df178b834cee52f1ff8667dd64cffe4727dd51', 'hex'),
-                                    voteCount: 0,
-                                },
-                            ],
-                        },
-                    }),
-                ],
+                referrals: arpReferrals.map(referral => referral.address),
             },
         });
 

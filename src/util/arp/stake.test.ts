@@ -4,10 +4,15 @@ import DDK, { WORKSPACE } from '../..';
 import { createAirdropReward } from './util';
 import { Account } from '../../model/common/account';
 import { COIN_MULTIPLIER } from '../../config/const';
+import { AccountRepository, IAccountRepository } from '../../repository/account';
 
 describe('ARP Stack', () => {
+    let accountRepository: IAccountRepository;
+
     beforeEach(() => {
-        DDK.initialize(WORKSPACE.MAINNET);
+        accountRepository = new AccountRepository();
+
+        DDK.initialize(WORKSPACE.MAINNET, accountRepository);
     });
 
     it('Empty sender', () => {
@@ -40,7 +45,9 @@ describe('ARP Stack', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const stakeAmount: number = 200 * COIN_MULTIPLIER;
         const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
 
@@ -69,7 +76,8 @@ describe('ARP Stack', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const stakeAmount: number = 200 * COIN_MULTIPLIER;
         const availableAirdropBalance = 1 * COIN_MULTIPLIER;
 
@@ -98,7 +106,8 @@ describe('ARP Stack', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const stakeAmount: number = 200 * COIN_MULTIPLIER;
         const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
 
@@ -174,13 +183,17 @@ describe('ARP Stack', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+        accountRepository.add(referrerLevel2);
+        accountRepository.add(referrerLevel3);
+
         const sender: Account = new Account({
             publicKey: '',
             arp: {
                 referrals: [
-                    referrerLevel1,
-                    referrerLevel2,
-                    referrerLevel3
+                    referrerLevel1.address,
+                    referrerLevel2.address,
+                    referrerLevel3.address,
                 ]
             }
         });

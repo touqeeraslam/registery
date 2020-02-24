@@ -4,10 +4,15 @@ import DDK, { WORKSPACE } from '../..';
 import { createAirdropReward } from './util';
 import { Account } from '../../model/common/account';
 import { COIN_MULTIPLIER } from '../../config/const';
+import { IAccountRepository, AccountRepository } from '../../repository/account';
 
 describe('ARP Vote', () => {
+    let accountRepository: IAccountRepository;
+
     beforeEach(() => {
-        DDK.initialize(WORKSPACE.MAINNET);
+        accountRepository = new AccountRepository();
+
+        DDK.initialize(WORKSPACE.MAINNET, accountRepository);
     });
 
     it('Empty sender', () => {
@@ -55,6 +60,8 @@ describe('ARP Vote', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+
         const sender = new Account({
             publicKey: '',
             address: BigInt('0000000000000000000'),
@@ -71,7 +78,7 @@ describe('ARP Vote', () => {
                     }
                 ],
                 referrals: [
-                    referrerLevel1
+                    referrerLevel1.address
                 ]
             }
         });
@@ -104,6 +111,8 @@ describe('ARP Vote', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+
         const sender = new Account({
             publicKey: '',
             address: BigInt('0000000000000000000'),
@@ -120,7 +129,7 @@ describe('ARP Vote', () => {
                     }
                 ],
                 referrals: [
-                    referrerLevel1
+                    referrerLevel1.address
                 ]
             }
         });
@@ -181,6 +190,8 @@ describe('ARP Vote', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+
         const sender = new Account({
             publicKey: '',
             address: BigInt('0000000000000000000'),
@@ -197,7 +208,7 @@ describe('ARP Vote', () => {
                     }
                 ],
                 referrals: [
-                    referrerLevel1
+                    referrerLevel1.address
                 ]
             }
         });
@@ -230,6 +241,8 @@ describe('ARP Vote', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+
         const sender = new Account({
             publicKey: '',
             address: BigInt('0000000000000000000'),
@@ -246,7 +259,7 @@ describe('ARP Vote', () => {
                     }
                 ],
                 referrals: [
-                    referrerLevel1
+                    referrerLevel1.address
                 ]
             }
         });
@@ -329,6 +342,10 @@ describe('ARP Vote', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+        accountRepository.add(referrerLevel2);
+        accountRepository.add(referrerLevel3);
+
         const sender = new Account({
             publicKey: '',
             address: BigInt('0000000000000000000'),
@@ -345,9 +362,9 @@ describe('ARP Vote', () => {
                     }
                 ],
                 referrals: [
-                    referrerLevel1,
-                    referrerLevel2,
-                    referrerLevel3
+                    referrerLevel1.address,
+                    referrerLevel2.address,
+                    referrerLevel3.address
                 ]
             }
         });
@@ -355,7 +372,7 @@ describe('ARP Vote', () => {
         const availableAirdropBalance = 1000 * COIN_MULTIPLIER;
         const activeStakeAmount = 300 * COIN_MULTIPLIER;
         const airdropReward = DDK.voteARPCalculator.calculate(sender, activeStakeAmount, availableAirdropBalance);
-        const expectairdropReward = createAirdropReward(new Map([
+        const expectedAirdropReward = createAirdropReward(new Map([
             [
                 referrerLevel1.address,
                 Math.ceil(300 * COIN_MULTIPLIER * DDK.config.ARP.CHAIN_REWARD.PERCENT_PER_LEVEL[0]),
@@ -366,6 +383,6 @@ describe('ARP Vote', () => {
             ],
         ]));
 
-        expect(expectairdropReward).to.deep.equal(airdropReward);
+        expect(expectedAirdropReward).to.deep.equal(airdropReward);
     });
 });

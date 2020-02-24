@@ -3,6 +3,7 @@ import { TransactionType } from '../model/common/transaction/type';
 import { Address, AirdropReward, Timestamp, StakeReward, VoteType } from '../model/common/type';
 import { StakeSchema, Stake } from '../model/common/transaction/stake';
 import { ConfigSchema } from '../config';
+import { IFeatureController, FeatureController } from './feature';
 
 export interface IStakeRewardPercentCalculator {
     calculatePercent(height: number): number;
@@ -53,6 +54,7 @@ export class RewardCalculator implements IRewardCalculator {
     private readonly unstakeVoteCount: number;
     private readonly stakeRewardPercent: number;
     private readonly referralPercentPerLevel: Array<number>;
+    private readonly arpFeatureController: IFeatureController;
 
     constructor(
         rewardVoteCount: number,
@@ -60,12 +62,14 @@ export class RewardCalculator implements IRewardCalculator {
         stakeRewardPercent: number,
         referralPercentPerLevel: Array<number>,
         percentCalculator: IStakeRewardPercentCalculator,
+        arpFeatureController: IFeatureController,
     ) {
         this.rewardVoteCount = rewardVoteCount;
         this.unstakeVoteCount = unstakeVoteCount;
         this.percentCalculator = percentCalculator;
         this.stakeRewardPercent = stakeRewardPercent;
         this.referralPercentPerLevel = referralPercentPerLevel;
+        this.arpFeatureController = arpFeatureController;
     }
 
     calculateTotalRewardAndUnstake(
@@ -94,7 +98,9 @@ export class RewardCalculator implements IRewardCalculator {
                 }
             });
 
-        reward = Math.ceil(reward);
+        if (this.arpFeatureController.isEnabled(lastBlockHeight)) {
+            reward = Math.ceil(reward);
+        }
 
         return { reward, unstake };
     }
@@ -147,5 +153,6 @@ export const initRewardCalculator = (config: ConfigSchema): IRewardCalculator =>
             config.STAKE.REWARDS.MILESTONES,
             config.STAKE.REWARDS.DISTANCE,
         ),
+        new FeatureController(config.ARP.ENABLED_BLOCK_HEIGHT),
     );
 };
