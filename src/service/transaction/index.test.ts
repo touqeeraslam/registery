@@ -773,10 +773,6 @@ describe('Transaction creator service', () => {
             status: TransactionStatus.CREATED,
         };
 
-        console.log('transactionResponse.data.asset', JSON.stringify(transactionResponse.data.asset));
-        console.log('airdropReward', transactionResponse.data.asset.airdropReward.sponsors);
-        console.log('arp', transactionResponse.data.asset.arp.airdropReward.sponsors);
-
         expect(true).to.equal(transactionResponse.success);
         expect(expected).to.deep.equal(transactionResponse.data);
     });
