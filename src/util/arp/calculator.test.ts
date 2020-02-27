@@ -4,10 +4,15 @@ import DDK, { WORKSPACE } from '../..';
 import { ARPCalculator } from './calculator';
 import { createAirdropReward } from './util';
 import { Account } from '../../model/common/account';
+import { IAccountRepository, AccountRepository } from '../../repository/account';
 
 describe('ARP calculator', () => {
+    let accountRepository: IAccountRepository;
+
     beforeEach(() => {
-        DDK.initialize(WORKSPACE.MAINNET);
+        accountRepository = new AccountRepository();
+
+        DDK.initialize(WORKSPACE.MAINNET, accountRepository);
     });
 
     it('Empty sender', () => {
@@ -66,7 +71,9 @@ describe('ARP calculator', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const amount: number = 10;
 
         const airdropReward = calculator.calculate(sender, amount, Infinity);
@@ -97,7 +104,9 @@ describe('ARP calculator', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const amount: number = 10;
 
         const airdropReward = calculator.calculate(sender, amount, Infinity);
@@ -128,7 +137,9 @@ describe('ARP calculator', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const amount: number = 10;
 
         const airdropReward = calculator.calculate(sender, amount, Infinity);
@@ -170,7 +181,9 @@ describe('ARP calculator', () => {
             }
         });
 
-        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1] } });
+        accountRepository.add(referrerLevel1);
+
+        const sender: Account = new Account({ publicKey: '', arp: { referrals: [referrerLevel1.address] } });
         const amount: number = 10;
 
         const airdropReward = calculator.calculate(sender, amount, Infinity);
@@ -249,13 +262,17 @@ describe('ARP calculator', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+        accountRepository.add(referrerLevel2);
+        accountRepository.add(referrerLevel3);
+
         const sender: Account = new Account({
             publicKey: '',
             arp: {
                 referrals: [
-                    referrerLevel1,
-                    referrerLevel2,
-                    referrerLevel3,
+                    referrerLevel1.address,
+                    referrerLevel2.address,
+                    referrerLevel3.address,
                 ]
             }
         });
@@ -338,13 +355,17 @@ describe('ARP calculator', () => {
             }
         });
 
+        accountRepository.add(referrerLevel1);
+        accountRepository.add(referrerLevel2);
+        accountRepository.add(referrerLevel3);
+
         const sender: Account = new Account({
             publicKey: '',
             arp: {
                 referrals: [
-                    referrerLevel1,
-                    referrerLevel2,
-                    referrerLevel3,
+                    referrerLevel1.address,
+                    referrerLevel2.address,
+                    referrerLevel3.address,
                 ]
             }
         });

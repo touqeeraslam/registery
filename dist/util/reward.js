@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const type_1 = require("../model/common/transaction/type");
 const type_2 = require("../model/common/type");
+const feature_1 = require("./feature");
 class StakeRewardPercentCalculator {
     constructor(milestones, distance) {
         this.milestones = milestones;
@@ -21,12 +22,13 @@ class StakeRewardPercentCalculator {
 }
 exports.StakeRewardPercentCalculator = StakeRewardPercentCalculator;
 class RewardCalculator {
-    constructor(rewardVoteCount, unstakeVoteCount, stakeRewardPercent, referralPercentPerLevel, percentCalculator) {
+    constructor(rewardVoteCount, unstakeVoteCount, stakeRewardPercent, referralPercentPerLevel, percentCalculator, arpFeatureController) {
         this.rewardVoteCount = rewardVoteCount;
         this.unstakeVoteCount = unstakeVoteCount;
         this.percentCalculator = percentCalculator;
         this.stakeRewardPercent = stakeRewardPercent;
         this.referralPercentPerLevel = referralPercentPerLevel;
+        this.arpFeatureController = arpFeatureController;
     }
     calculateTotalRewardAndUnstake(createdAt, stakes, voteType, lastBlockHeight) {
         let reward = 0;
@@ -46,7 +48,9 @@ class RewardCalculator {
                 unstake += stake.amount;
             }
         });
-        reward = Math.ceil(reward);
+        if (this.arpFeatureController.isEnabled(lastBlockHeight)) {
+            reward = Math.ceil(reward);
+        }
         return { reward, unstake };
     }
     calculateAirdropReward(sender, amount, transactionType, availableAirdropBalance) {
@@ -79,5 +83,5 @@ class RewardCalculator {
 }
 exports.RewardCalculator = RewardCalculator;
 exports.initRewardCalculator = (config) => {
-    return new RewardCalculator(config.STAKE.REWARD_VOTE_COUNT, config.STAKE.UNSTAKE_VOTE_COUNT, config.AIRDROP.STAKE_REWARD_PERCENT, config.AIRDROP.REFERRAL_PERCENT_PER_LEVEL, new StakeRewardPercentCalculator(config.STAKE.REWARDS.MILESTONES, config.STAKE.REWARDS.DISTANCE));
+    return new RewardCalculator(config.STAKE.REWARD_VOTE_COUNT, config.STAKE.UNSTAKE_VOTE_COUNT, config.AIRDROP.STAKE_REWARD_PERCENT, config.AIRDROP.REFERRAL_PERCENT_PER_LEVEL, new StakeRewardPercentCalculator(config.STAKE.REWARDS.MILESTONES, config.STAKE.REWARDS.DISTANCE), new feature_1.FeatureController(config.ARP.ENABLED_BLOCK_HEIGHT));
 };
